@@ -1,0 +1,17 @@
+// Application-level settings for the Runner target.
+//
+// This may be replaced with something auto-generated from metadata (e.g., pubspec.yaml) in the
+// future. If not, the values below would default to using the project name when this becomes a
+// 'flutter create' template.
+
+// Paket ve çalıştırılabilir dosya adı ASCII OLMAK ZORUNDA: "İşlerPro"
+// denendiğinde `codesign` "code object is not signed at all" ile düştü.
+// Kullanıcının gördüğü ad Info.plist'teki CFBundleDisplayName, pencere
+// başlığı da MainFlutterWindow.swift'te ayarlanıyor.
+PRODUCT_NAME = IslerPro
+
+// The application's bundle identifier
+PRODUCT_BUNDLE_IDENTIFIER = com.example.islerpro
+
+// The copyright displayed in application information
+PRODUCT_COPYRIGHT = Copyright © 2026 İşler Yayınları. Tüm hakları saklıdır.

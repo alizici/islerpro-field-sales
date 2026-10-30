@@ -1,0 +1,7 @@
+zemin #FCFAF9 · kart #FFF · kenar #E9E1DE · zemin2 #F1EAE7
+ink #1A1518 · ink2 #2A2024 · ink3 #5C5155 · muted #8A7E82
+bordo #6E1B2C · bordoKoyu #3F0F1B · bordoSoft #F4E0E4 · bordoSofter #FDF8F8
+basarili #2E6A4F/#EAF2ED · uyari #A2661B/#FDF3E7 · tehlike #B0332B/#FBF0EF · bilgi #3E6E8E/#F0F4F7
+rKart 11 · rDugme 8 · rCip 6 · s1..s6 = 4/8/12/16/24/32 · minTouch 48
+tip: 24/700 başlık · 17/600 appbar · 14/600 titleMedium · 13/600 titleSmall
+     14/1.45 body · 13/1.45 bodyM · 12/1.4 bodyS · 11/600/0.8ls labelSmall

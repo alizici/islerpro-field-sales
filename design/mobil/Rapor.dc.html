@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin:0; font-family:'IBM Plex Sans',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+    a { color:#6E1B2C; } a:hover { color:#8E2740; }
+    .mono { font-family:'IBM Plex Mono',ui-monospace,monospace; font-variant-numeric:tabular-nums; }
+  </style>
+</helmet>
+<div style="width:390px;height:844px;background:#FCFAF9;color:#1A1518;display:flex;flex-direction:column;overflow:hidden">
+
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid #E9E1DE">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5C5155" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+    <span style="font-size:17px;font-weight:600;letter-spacing:-0.3px;flex-grow:1">Yaşlandırma</span>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5C5155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 11l4 4 4-4"/><path d="M4 21h16"/></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5C5155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+  </div>
+
+  <!-- KIRILIM · masaüstündeki çip satırı mobilde tek satır + sayfa -->
+  <div style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border-bottom:1px solid #E9E1DE">
+    <span style="font-size:11px;font-weight:600;letter-spacing:0.8px;color:#8A7E82">KIRILIM</span>
+    <div style="display:flex;align-items:center;gap:5px;padding:6px 10px;background:#F4E0E4;border-radius:6px">
+      <span style="font-size:12px;font-weight:600;color:#6E1B2C">Cari</span>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6E1B2C" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div style="flex-grow:1"></div>
+    <span style="font-size:12px;color:#8A7E82">5 satır</span>
+  </div>
+
+  <!-- K7 · motorun uyarısı, gizlenmiyor -->
+  <div style="display:flex;gap:9px;margin:12px 16px 0;padding:11px 12px;background:#FDF3E7;border:1px solid #EBD6B8;border-radius:8px">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A2661B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+    <span style="font-size:12px;color:#7A4E14;line-height:1.4"><strong style="font-weight:600">K7 ·</strong> Kurum kırılımında bakiye toplanmaz — kurum, öğretmenin borcunun kefili değildir. Cariler ayrı listelendi.</span>
+  </div>
+
+  <div style="flex-grow:1;overflow:hidden;display:flex;flex-direction:column;gap:12px;padding:12px 16px 0">
+
+    <!-- Mobilde TABLO DEĞİL kart: yatay kaydırma yok -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="background:#fff;border:1px solid #E9E1DE;border-radius:11px;padding:13px 14px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:baseline;gap:10px">
+          <span style="font-size:14px;font-weight:600;letter-spacing:-0.1px;flex-grow:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Horoz Ortaokulu Kurumsal</span>
+          <span class="mono" style="font-size:16px;font-weight:600;color:#B0332B">₺4.180</span>
+        </div>
+        <div style="display:flex;height:6px;border-radius:3px;overflow:hidden;background:#F1EAE7">
+          <div style="width:12%;background:#2E6A4F"></div><div style="width:0%;background:#A2661B"></div>
+          <div style="width:18%;background:#C4562B"></div><div style="width:70%;background:#B0332B"></div>
+        </div>
+        <div style="display:flex;gap:12px">
+          <span style="font-size:11px;color:#8A7E82">0-30 <span class="mono" style="color:#2A2024">502</span></span>
+          <span style="font-size:11px;color:#8A7E82">61-90 <span class="mono" style="color:#2A2024">753</span></span>
+          <span style="font-size:11px;color:#B0332B;font-weight:600">90+ <span class="mono">2.925</span></span>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E9E1DE;border-radius:11px;padding:13px 14px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:baseline;gap:10px">
+          <span style="font-size:14px;font-weight:600;letter-spacing:-0.1px;flex-grow:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Gözeller İ.H.O. Kurumsal</span>
+          <span class="mono" style="font-size:16px;font-weight:600;color:#B0332B">₺2.480</span>
+        </div>
+        <div style="display:flex;height:6px;border-radius:3px;overflow:hidden;background:#F1EAE7">
+          <div style="width:34%;background:#2E6A4F"></div><div style="width:22%;background:#A2661B"></div>
+          <div style="width:44%;background:#C4562B"></div>
+        </div>
+        <div style="display:flex;gap:12px">
+          <span style="font-size:11px;color:#8A7E82">0-30 <span class="mono" style="color:#2A2024">843</span></span>
+          <span style="font-size:11px;color:#8A7E82">31-60 <span class="mono" style="color:#2A2024">546</span></span>
+          <span style="font-size:11px;color:#8A7E82">61-90 <span class="mono" style="color:#2A2024">1.091</span></span>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E9E1DE;border-radius:11px;padding:13px 14px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:baseline;gap:10px">
+          <span style="font-size:14px;font-weight:600;letter-spacing:-0.1px;flex-grow:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Ömer Kaya · Türkçe</span>
+          <span class="mono" style="font-size:16px;font-weight:600;color:#A2661B">₺1.240</span>
+        </div>
+        <div style="display:flex;height:6px;border-radius:3px;overflow:hidden;background:#F1EAE7">
+          <div style="width:100%;background:#2E6A4F"></div>
+        </div>
+        <div style="display:flex;gap:12px">
+          <span style="font-size:11px;color:#8A7E82">0-30 <span class="mono" style="color:#2A2024">1.240</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPLAM · sayfanın toplamı DEĞİL raporun toplamı -->
+  <div style="padding:12px 16px 16px;background:#fff;border-top:1px solid #E9E1DE;display:flex;flex-direction:column;gap:4px">
+    <div style="display:flex;align-items:baseline;gap:10px">
+      <span style="font-size:13px;font-weight:600;flex-grow:1">TOPLAM</span>
+      <span class="mono" style="font-size:22px;font-weight:600">₺8.426</span>
+    </div>
+    <span style="font-size:11px;color:#8A7E82">5 / 5 kırılım · toplam raporun tamamını kapsar</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

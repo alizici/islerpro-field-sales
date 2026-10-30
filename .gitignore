@@ -1,0 +1,34 @@
+# Flutter
+.dart_tool/
+.packages
+build/
+*.iml
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Gizli
+.env
+.env.local
+supabase/.temp/
+supabase/.branches/
+
+# IDE / OS
+.idea/
+.DS_Store
+
+# .vscode'un TAMAMI yok sayılmaz: çalıştırma yapılandırması projenin bir
+# parçası — depoyu klonlayan F5'e basıp çalıştırabilmeli. Kişisel ayarlar
+# (settings.json) dışarıda kalır. İçinde sır yok; anahtarlar .env'den gelir.
+.vscode/*
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Gizli (yerel)
+.env.local
+.tools/
+
+# Göç için üretilen ara dosyalar (kaynak SQL zaten repoda değil)
+veri/*.csv
+
+# Demo hesap listesi (parola içerir)
+demo-hesaplar.md

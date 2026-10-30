@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+
+	<!-- Supabase'e GİDEN bağlantı. Sandbox'lı bir uygulamada bu izin
+	     olmadan hiçbir ağ isteği çıkmaz; uygulama sessizce çevrimdışı
+	     davranır. Flutter'ın varsayılan şablonunda YOKTUR. -->
+	<key>com.apple.security.network.client</key>
+	<true/>
+
+	<!-- K42 · Yerel veritabanı anahtarı cihazın kasasında durur
+	     (flutter_secure_storage → Keychain). Bu izin olmadan Keychain
+	     yazma -34018 "A required entitlement isn't present" veriyor ve
+	     ŞİFRELİ YEREL VERİ HİÇ ÇALIŞMIYOR. -->
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
+
+	<!-- K49 · Toplu aktarma Excel/CSV dosyası seçtiriyor; dışa aktarma
+	     da kullanıcının seçtiği yere yazıyor (file_picker). -->
+	<key>com.apple.security.files.user-selected.read-write</key>
+	<true/>
+</dict>
+</plist>

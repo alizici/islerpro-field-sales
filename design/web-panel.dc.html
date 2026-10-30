@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; padding:0; }
+  body { background:#FBF9F8; color:#1A1518; font-family:'IBM Plex Sans', sans-serif; -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  a { color:#6E1B2C; text-decoration:none; }
+  a:hover { color:#8E2740; }
+  ::selection { background:#F4E0E4; }
+  input, select, button, textarea { font-family:inherit; font-size:inherit; color:inherit; }
+  .om-sc::-webkit-scrollbar { width:10px; height:10px; }
+  .om-sc::-webkit-scrollbar-thumb { background:#DED5D1; border-radius:8px; border:3px solid #FBF9F8; }
+</style>
+</helmet>
+
+<div style="display:flex; height:100vh; overflow:hidden; background:#FBF9F8">
+
+  <sc-if value="{{ navLeft }}" hint-placeholder-val="{{ true }}">
+    <aside style="flex:0 0 auto; background:#3F0F1B; color:#F6EDEE; display:flex; flex-direction:column; padding:18px 12px 12px">
+      <div style="display:flex; align-items:center; gap:10px; padding:2px 8px 20px">
+        <div style="width:30px; height:30px; border-radius:8px; background:#8E2740; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; letter-spacing:-.02em; flex:0 0 auto">İP</div>
+        <sc-if value="{{ navWide }}" hint-placeholder-val="{{ true }}">
+          <div style="min-width:0">
+            <div style="font-size:14px; font-weight:600; letter-spacing:-.01em; white-space:nowrap">İşlerPro</div>
+            <div style="font-size:11px; color:rgba(246,237,238,.52); white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ storeLabel }}</div>
+          </div>
+        </sc-if>
+      </div>
+
+      <nav style="display:flex; flex-direction:column; gap:2px; flex:1; min-height:0; overflow-y:auto">
+        <sc-for list="{{ navItems }}" as="it" hint-placeholder-count="11">
+          <div onClick="{{ it.go }}" title="{{ it.label }}" style="position:relative; display:flex; align-items:center; gap:11px; padding:9px 10px; border-radius:7px; cursor:pointer; font-size:13.5px; color:rgba(246,237,238,.74)" style-hover="background:rgba(255,255,255,.07); color:#FFF">
+            <sc-if value="{{ it.active }}" hint-placeholder-val="{{ false }}">
+              <span style="position:absolute; inset:0; background:rgba(255,255,255,.11); border-radius:7px; box-shadow:inset 2px 0 0 #E8A6AE"></span>
+            </sc-if>
+            <span style="position:relative; flex:0 0 auto; width:18px; height:18px; display:flex; align-items:center; justify-content:center; opacity:.9">{{ it.icon }}</span>
+            <sc-if value="{{ navWide }}" hint-placeholder-val="{{ true }}">
+              <span style="position:relative; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ it.label }}</span>
+            </sc-if>
+            <sc-if value="{{ it.badgeVisible }}" hint-placeholder-val="{{ false }}">
+              <span style="position:relative; margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; background:#8E2740; color:#fff; padding:1px 6px; border-radius:20px">{{ it.badge }}</span>
+            </sc-if>
+          </div>
+        </sc-for>
+      </nav>
+
+      <div onClick="{{ goCreate }}" style="margin-top:10px; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; border-radius:8px; background:#F6EDEE; color:#3F0F1B; font-size:13px; font-weight:600; cursor:pointer" style-hover="background:#fff">
+        <span style="font-size:16px; line-height:1">+</span>
+        <sc-if value="{{ navWide }}" hint-placeholder-val="{{ true }}"><span style="white-space:nowrap">Sipariş oluştur</span></sc-if>
+      </div>
+      <div style="display:flex; align-items:center; gap:9px; padding:12px 6px 4px; margin-top:8px; border-top:1px solid rgba(255,255,255,.10)">
+        <div style="width:26px; height:26px; border-radius:50%; background:#6E1B2C; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; flex:0 0 auto">MK</div>
+        <sc-if value="{{ navWide }}" hint-placeholder-val="{{ true }}">
+          <div style="min-width:0; font-size:12px">
+            <div style="font-weight:500; white-space:nowrap">Mahmut Kaya</div>
+            <div style="color:rgba(246,237,238,.5); white-space:nowrap">İşletme sahibi</div>
+          </div>
+        </sc-if>
+      </div>
+    </aside>
+  </sc-if>
+
+  <main class="om-sc" style="flex:1 1 0; min-width:0; overflow-y:auto; display:flex; flex-direction:column">
+
+    <sc-if value="{{ navTop }}" hint-placeholder-val="{{ false }}">
+      <div style="position:sticky; top:0; z-index:30; background:#3F0F1B; color:#F6EDEE; display:flex; align-items:center; gap:6px; padding:0 20px; height:56px; overflow-x:auto">
+        <div style="display:flex; align-items:center; gap:9px; padding-right:18px; margin-right:6px; border-right:1px solid rgba(255,255,255,.14); flex:0 0 auto">
+          <div style="width:26px; height:26px; border-radius:7px; background:#8E2740; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px">İP</div>
+          <span style="font-size:13.5px; font-weight:600">İşlerPro</span>
+        </div>
+        <sc-for list="{{ navItems }}" as="it" hint-placeholder-count="11">
+          <div onClick="{{ it.go }}" style="position:relative; padding:7px 11px; border-radius:7px; cursor:pointer; font-size:13px; white-space:nowrap; color:rgba(246,237,238,.74); flex:0 0 auto" style-hover="background:rgba(255,255,255,.08); color:#fff">
+            <sc-if value="{{ it.active }}" hint-placeholder-val="{{ false }}">
+              <span style="position:absolute; inset:0; background:rgba(255,255,255,.12); border-radius:7px; box-shadow:inset 0 -2px 0 #E8A6AE"></span>
+            </sc-if>
+            <span style="position:relative">{{ it.label }}</span>
+          </div>
+        </sc-for>
+        <div onClick="{{ goCreate }}" style="margin-left:auto; flex:0 0 auto; padding:8px 14px; border-radius:7px; background:#F6EDEE; color:#3F0F1B; font-size:12.5px; font-weight:600; cursor:pointer; white-space:nowrap">+ Sipariş</div>
+      </div>
+    </sc-if>
+
+    <header style="position:sticky; top:0; z-index:20; background:rgba(251,249,248,.94); backdrop-filter:blur(8px); border-bottom:1px solid #EBE3E0; padding:20px 32px 16px; display:flex; align-items:flex-end; gap:24px; flex-wrap:wrap">
+      <div style="min-width:0; flex:1 1 320px">
+        <div style="font-size:11.5px; letter-spacing:.09em; text-transform:uppercase; color:#9C8F92; font-weight:600; margin-bottom:5px">{{ crumb }}</div>
+        <h1 style="margin:0; font-size:25px; font-weight:600; letter-spacing:-.025em; line-height:1.15">{{ pageTitle }}</h1>
+        <p style="margin:6px 0 0; font-size:13.5px; color:#71666A; max-width:70ch; text-wrap:pretty">{{ pageSub }}</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:16px; flex:0 0 auto; padding-bottom:2px">
+        <div style="display:flex; flex-direction:column; gap:5px">
+          <span style="font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:#A2969A; font-weight:600">Navigasyon</span>
+          <div style="display:flex; background:#F1EAE7; border:1px solid #E5DBD7; border-radius:7px; padding:2px">
+            <sc-for list="{{ navModes }}" as="m" hint-placeholder-count="3">
+              <div onClick="{{ m.pick }}" style="position:relative; padding:5px 10px; border-radius:5px; font-size:11.5px; cursor:pointer; color:#6B6064" style-hover="color:#3F0F1B">
+                <sc-if value="{{ m.on }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; inset:0; background:#fff; border-radius:5px; box-shadow:0 1px 2px rgba(63,15,27,.10)"></span></sc-if>
+                <span style="position:relative">{{ m.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; border:1px solid #E9E1DE; background:#fff; border-radius:8px">
+          <span style="font-size:11.5px; color:#8A7E82">Dönem</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:500">2026-2027 / 1</span>
+          <span style="width:6px; height:6px; border-radius:50%; background:#2E6A4F"></span>
+        </div>
+      </div>
+    </header>
+
+    <div style="padding:26px 32px 60px; flex:1">
+
+      <!-- ══════════ PANEL ══════════ -->
+      <sc-if value="{{ scDash }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px">
+            <span style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#A2969A; font-weight:600">Panel düzeni</span>
+            <div style="display:flex; background:#F1EAE7; border:1px solid #E5DBD7; border-radius:7px; padding:2px">
+              <sc-for list="{{ dashModes }}" as="d" hint-placeholder-count="2">
+                <div onClick="{{ d.pick }}" style="position:relative; padding:5px 12px; border-radius:5px; font-size:11.5px; cursor:pointer; color:#6B6064">
+                  <sc-if value="{{ d.on }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; inset:0; background:#fff; border-radius:5px; box-shadow:0 1px 2px rgba(63,15,27,.10)"></span></sc-if>
+                  <span style="position:relative">{{ d.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- Düzen A: ölçüm önce -->
+          <sc-if value="{{ dashA }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex; flex-direction:column; gap:22px">
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr)); gap:14px">
+                <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+                  <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:16px 18px">
+                    <div style="font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:#988C90; font-weight:600">{{ k.label }}</div>
+                    <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:500; letter-spacing:-.03em; margin-top:9px; color:#2A2024">{{ k.value }}</div>
+                    <div style="display:flex; align-items:center; gap:6px; margin-top:8px; font-size:12px; color:{{ k.deltaColor }}">
+                      <span>{{ k.delta }}</span><span style="color:#A2969A">{{ k.note }}</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(400px,1fr)); gap:18px">
+                <div style="display:flex; flex-direction:column; gap:18px">
+                  <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:18px 20px 20px">
+                    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:16px">
+                      <h2 style="margin:0; font-size:15px; font-weight:600; letter-spacing:-.01em">Talep hunisi</h2>
+                      <span style="font-size:12px; color:#8A7E82">Bu dönem</span>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:11px">
+                      <sc-for list="{{ funnel }}" as="f" hint-placeholder-count="4">
+                        <div style="display:flex; align-items:center; gap:14px">
+                          <span style="flex:0 0 132px; font-size:13px; color:#5C5155">{{ f.label }}</span>
+                          <div style="flex:1; height:26px; background:#F5EFEC; border-radius:5px; overflow:hidden">
+                            <div style="height:100%; width:{{ f.pct }}; background:{{ f.color }}; border-radius:5px"></div>
+                          </div>
+                          <span style="flex:0 0 46px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:13.5px; font-weight:500">{{ f.n }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+
+                  <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+                    <div style="padding:16px 20px 14px; border-bottom:1px solid #EFE8E5"><h2 style="margin:0; font-size:15px; font-weight:600; letter-spacing:-.01em">Dükkan kırılımı</h2></div>
+                    <table style="width:100%; border-collapse:collapse">
+                      <thead>
+                        <tr style="background:#FCFAF9">
+                          <th style="text-align:left; padding:9px 20px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Dükkan</th>
+                          <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Ciro</th>
+                          <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Tahsilat</th>
+                          <th style="text-align:right; padding:9px 20px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Açık bakiye</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <sc-for list="{{ stores }}" as="st" hint-placeholder-count="3">
+                          <tr style="border-top:1px solid #F1EBE8">
+                            <td style="padding:12px 20px; font-size:13.5px">
+                              <div style="font-weight:500">{{ st.name }}</div>
+                              <div style="font-size:11.5px; color:#9C8F92; margin-top:2px">{{ st.city }} · {{ st.reps }} pazarlamacı</div>
+                            </td>
+                            <td style="padding:12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:13px">{{ st.ciro }}</td>
+                            <td style="padding:12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:13px">{{ st.tahsilat }}</td>
+                            <td style="padding:12px 20px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:13px; color:#6E1B2C; font-weight:500">{{ st.bakiye }}</td>
+                          </tr>
+                        </sc-for>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:18px">
+                  <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:18px 20px">
+                    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px">
+                      <h2 style="margin:0; font-size:15px; font-weight:600; letter-spacing:-.01em">Bekleyen onaylar</h2>
+                      <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; background:#F4E0E4; color:#6E1B2C; padding:2px 8px; border-radius:20px; font-weight:600">6</span>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:2px">
+                      <sc-for list="{{ approvals }}" as="a" hint-placeholder-count="4">
+                        <div style="display:flex; align-items:center; gap:12px; padding:10px 8px; margin:0 -8px; border-radius:7px; cursor:pointer" style-hover="background:#FBF7F6">
+                          <span style="width:5px; height:28px; border-radius:3px; background:{{ a.color }}; flex:0 0 auto"></span>
+                          <div style="min-width:0; flex:1">
+                            <div style="font-size:13px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ a.title }}</div>
+                            <div style="font-size:11.5px; color:#9C8F92; margin-top:2px">{{ a.reason }}</div>
+                          </div>
+                          <span style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; flex:0 0 auto">{{ a.amount }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+
+                  <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:18px 20px">
+                    <h2 style="margin:0 0 14px; font-size:15px; font-weight:600; letter-spacing:-.01em">Vadesi yaklaşan çekler</h2>
+                    <div style="display:flex; flex-direction:column; gap:11px">
+                      <sc-for list="{{ cheques }}" as="c" hint-placeholder-count="3">
+                        <div style="display:flex; align-items:center; gap:12px">
+                          <div style="flex:0 0 44px; text-align:center; border:1px solid #EDE5E2; border-radius:7px; padding:4px 0; background:#FCFAF9">
+                            <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600; line-height:1.1">{{ c.day }}</div>
+                            <div style="font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92">{{ c.mon }}</div>
+                          </div>
+                          <div style="min-width:0; flex:1">
+                            <div style="font-size:13px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ c.who }}</div>
+                            <div style="font-size:11.5px; color:#9C8F92">{{ c.bank }}</div>
+                          </div>
+                          <span style="font-family:'IBM Plex Mono',monospace; font-size:12.5px">{{ c.amount }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <div style="margin-top:14px; padding-top:12px; border-top:1px dashed #E9E1DE; font-size:11.5px; color:#8A7E82; text-wrap:pretty">Limit kontrolü bakiye + portföydeki vadesi gelmemiş çeki birlikte sayar.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- Düzen B: iş kuyruğu önce -->
+          <sc-if value="{{ dashB }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(400px,1fr)); gap:18px">
+              <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+                <div style="padding:17px 20px 15px; border-bottom:1px solid #EFE8E5; display:flex; align-items:baseline; justify-content:space-between">
+                  <h2 style="margin:0; font-size:15px; font-weight:600; letter-spacing:-.01em">Bugün müdahale gerekenler</h2>
+                  <span style="font-size:12px; color:#8A7E82">14 kayıt</span>
+                </div>
+                <sc-for list="{{ queue }}" as="q" hint-placeholder-count="6">
+                  <div style="display:flex; align-items:center; gap:14px; padding:14px 20px; border-bottom:1px solid #F3EDEA; cursor:pointer" style-hover="background:#FCFAF9">
+                    <span style="flex:0 0 auto; font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:600; letter-spacing:.04em; padding:3px 7px; border-radius:5px; background:{{ q.tagBg }}; color:{{ q.tagFg }}">{{ q.tag }}</span>
+                    <div style="min-width:0; flex:1">
+                      <div style="font-size:13.5px; font-weight:500">{{ q.title }}</div>
+                      <div style="font-size:11.5px; color:#9C8F92; margin-top:3px">{{ q.meta }}</div>
+                    </div>
+                    <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; flex:0 0 auto">{{ q.amount }}</span>
+                    <span style="flex:0 0 auto; font-size:12px; color:#6E1B2C; font-weight:500; padding:6px 11px; border:1px solid #E4CFD4; border-radius:6px; background:#FDF8F8">{{ q.action }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:12px">
+                <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+                  <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; gap:14px">
+                    <div>
+                      <div style="font-size:12px; color:#7A6E72">{{ k.label }}</div>
+                      <div style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:500; letter-spacing:-.02em; margin-top:4px">{{ k.value }}</div>
+                    </div>
+                    <span style="font-size:12px; font-weight:500; color:{{ k.deltaColor }}">{{ k.delta }}</span>
+                  </div>
+                </sc-for>
+                <div style="background:#3F0F1B; color:#F6EDEE; border-radius:11px; padding:18px 20px">
+                  <div style="font-size:12px; color:rgba(246,237,238,.6); letter-spacing:.05em; text-transform:uppercase; font-weight:600">Talep SLA'sı</div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:30px; font-weight:500; margin-top:8px; letter-spacing:-.03em">24 sa</div>
+                  <div style="font-size:12.5px; color:rgba(246,237,238,.7); margin-top:6px; text-wrap:pretty">3 talep sınırı aştı, sahiplerine eskale edildi.</div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ TALEPLER ══════════ -->
+      <sc-if value="{{ scTalep }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(430px,1fr)); gap:18px; align-items:start">
+          <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+            <div style="display:flex; gap:6px; padding:12px 16px; border-bottom:1px solid #EFE8E5; overflow-x:auto">
+              <sc-for list="{{ talepFilters }}" as="f" hint-placeholder-count="5">
+                <div onClick="{{ f.pick }}" style="position:relative; padding:6px 12px; border-radius:20px; font-size:12.5px; cursor:pointer; white-space:nowrap; border:1px solid #E9E1DE; color:#5C5155" style-hover="border-color:#D9C6CA">
+                  <sc-if value="{{ f.on }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; inset:-1px; background:#3F0F1B; border-radius:20px"></span></sc-if>
+                  <span style="position:relative; color:{{ f.fg }}">{{ f.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <table style="width:100%; border-collapse:collapse">
+              <thead>
+                <tr style="background:#FCFAF9">
+                  <th style="text-align:left; padding:9px 16px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Muhatap</th>
+                  <th style="text-align:left; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Kalem</th>
+                  <th style="text-align:left; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Durum</th>
+                  <th style="text-align:right; padding:9px 16px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Yaş</th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ talepler }}" as="t" hint-placeholder-count="7">
+                  <tr onClick="{{ t.open }}" style="border-top:1px solid #F1EBE8; cursor:pointer" style-hover="background:#FCFAF9">
+                    <td style="padding:13px 16px">
+                      <div style="font-size:13.5px; font-weight:500">{{ t.account }}</div>
+                      <div style="font-size:11.5px; color:#9C8F92; margin-top:3px">{{ t.institution }} · {{ t.source }}</div>
+                    </td>
+                    <td style="padding:13px 12px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#5C5155">{{ t.items }}</td>
+                    <td style="padding:13px 12px">
+                      <span style="font-size:11.5px; font-weight:500; padding:3px 9px; border-radius:5px; background:{{ t.badgeBg }}; color:{{ t.badgeFg }}">{{ t.status }}</span>
+                    </td>
+                    <td style="padding:13px 16px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:{{ t.ageColor }}">{{ t.age }}</td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; position:sticky; top:120px; overflow:hidden">
+            <div style="padding:18px 20px; border-bottom:1px solid #EFE8E5">
+              <div style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#9C8F92; font-weight:600">Talep · {{ detay.no }}</div>
+              <div style="font-size:16.5px; font-weight:600; letter-spacing:-.015em; margin-top:6px">{{ detay.account }}</div>
+              <div style="font-size:12.5px; color:#71666A; margin-top:3px">{{ detay.institution }}</div>
+              <div style="display:flex; gap:16px; margin-top:14px">
+                <div><div style="font-size:11px; color:#9C8F92">Bakiye</div><div style="font-family:'IBM Plex Mono',monospace; font-size:14px; margin-top:2px">{{ detay.bakiye }}</div></div>
+                <div><div style="font-size:11px; color:#9C8F92">Limit</div><div style="font-family:'IBM Plex Mono',monospace; font-size:14px; margin-top:2px">{{ detay.limit }}</div></div>
+                <div><div style="font-size:11px; color:#9C8F92">Konsinye</div><div style="font-family:'IBM Plex Mono',monospace; font-size:14px; margin-top:2px">{{ detay.konsinye }}</div></div>
+              </div>
+            </div>
+            <div style="padding:14px 20px 18px">
+              <div style="font-size:12px; color:#8A7E82; margin-bottom:10px">Kalem bazında karar</div>
+              <div style="display:flex; flex-direction:column; gap:9px">
+                <sc-for list="{{ detayKalem }}" as="k" hint-placeholder-count="4">
+                  <div style="border:1px solid #EDE6E3; border-radius:9px; padding:11px 12px">
+                    <div style="display:flex; justify-content:space-between; gap:10px">
+                      <div style="min-width:0">
+                        <div style="font-size:13px; font-weight:500; text-wrap:pretty">{{ k.name }}</div>
+                        <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#9C8F92; margin-top:3px">{{ k.qty }} × {{ k.price }}</div>
+                      </div>
+                      <div style="display:flex; gap:5px; flex:0 0 auto; align-items:flex-start">
+                        <span onClick="{{ k.approve }}" style="font-size:11.5px; font-weight:500; padding:5px 9px; border-radius:6px; cursor:pointer; background:{{ k.okBg }}; color:{{ k.okFg }}; border:1px solid {{ k.okBorder }}">Onayla</span>
+                        <span onClick="{{ k.reject }}" style="font-size:11.5px; font-weight:500; padding:5px 9px; border-radius:6px; cursor:pointer; background:{{ k.noBg }}; color:{{ k.noFg }}; border:1px solid {{ k.noBorder }}">Reddet</span>
+                      </div>
+                    </div>
+                    <sc-if value="{{ k.rejected }}" hint-placeholder-val="{{ false }}">
+                      <div style="margin-top:9px; font-size:11.5px; color:#B0332B; background:#FBF0EF; border-radius:6px; padding:6px 9px">Red nedeni: stokta yok, yeni baskı bekleniyor</div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-top:16px; padding-top:14px; border-top:1px solid #EFE8E5">
+                <div style="font-size:12px; color:#8A7E82">Onaylı kalem toplamı</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600">{{ detay.toplam }}</div>
+              </div>
+              <div onClick="{{ goCreate }}" style="margin-top:12px; text-align:center; padding:11px; background:#6E1B2C; color:#fff; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer" style-hover="background:#8E2740">Siparişe dönüştür</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ KURUMLAR ══════════ -->
+      <sc-if value="{{ scKurum }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+          <div style="display:flex; gap:10px; padding:14px 16px; border-bottom:1px solid #EFE8E5; flex-wrap:wrap; align-items:center">
+            <div style="flex:1 1 240px; display:flex; align-items:center; gap:9px; border:1px solid #E5DBD7; border-radius:8px; padding:8px 12px; background:#FCFAF9">
+              <span style="color:#A2969A; font-size:13px">Ara</span>
+              <input placeholder="Kurum adı, ilçe veya MEB kodu" style="border:0; background:transparent; outline:none; flex:1; font-size:13px">
+            </div>
+            <sc-for list="{{ kurumFilters }}" as="f" hint-placeholder-count="4">
+              <div style="display:flex; align-items:center; gap:7px; border:1px solid #E5DBD7; border-radius:8px; padding:8px 12px; font-size:12.5px; color:#5C5155; background:#fff; cursor:pointer" style-hover="border-color:#D9C6CA">
+                <span style="color:#9C8F92">{{ f.label }}</span><span style="font-weight:500">{{ f.value }}</span><span style="color:#B5A9AC; font-size:10px">▾</span>
+              </div>
+            </sc-for>
+          </div>
+          <table style="width:100%; border-collapse:collapse">
+            <thead>
+              <tr style="background:#FCFAF9">
+                <th style="text-align:left; padding:9px 16px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Kurum</th>
+                <th style="text-align:left; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Tip / kademe</th>
+                <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Cari</th>
+                <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">İş hacmi</th>
+                <th style="text-align:left; padding:9px 16px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Son ziyaret</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ kurumlar }}" as="k" hint-placeholder-count="8">
+                <tr onClick="{{ k.open }}" style="border-top:1px solid #F1EBE8; cursor:pointer" style-hover="background:#FCFAF9">
+                  <td style="padding:13px 16px">
+                    <div style="display:flex; align-items:center; gap:8px">
+                      <sc-if value="{{ k.child }}" hint-placeholder-val="{{ false }}"><span style="color:#C4B6B9; font-size:12px; margin-left:12px">└</span></sc-if>
+                      <span style="font-size:13.5px; font-weight:500">{{ k.name }}</span>
+                      <sc-if value="{{ k.unverified }}" hint-placeholder-val="{{ false }}"><span style="font-size:10.5px; padding:2px 7px; border-radius:5px; background:#FDF3E7; color:#A2661B; font-weight:500">doğrulanmadı</span></sc-if>
+                    </div>
+                    <div style="font-size:11.5px; color:#9C8F92; margin-top:3px; margin-left:{{ k.indent }}">{{ k.district }} · {{ k.students }} öğrenci</div>
+                  </td>
+                  <td style="padding:13px 12px; font-size:12.5px; color:#5C5155">{{ k.type }}</td>
+                  <td style="padding:13px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px">{{ k.accounts }}</td>
+                  <td style="padding:13px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px">{{ k.volume }}</td>
+                  <td style="padding:13px 16px; font-size:12.5px; color:{{ k.visitColor }}">{{ k.visit }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+          <div style="padding:12px 16px; background:#FCFAF9; border-top:1px solid #F1EBE8; font-size:11.5px; color:#8A7E82">İş hacmi ciro göstergesidir; kurum düzeyinde bakiye veya risk toplanmaz.</div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ KURUM DETAYI ══════════ -->
+      <sc-if value="{{ scKurumDetay }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; flex-direction:column; gap:18px">
+          <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:20px 22px">
+            <div style="display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap">
+              <div>
+                <div style="display:flex; align-items:center; gap:10px">
+                  <h2 style="margin:0; font-size:20px; font-weight:600; letter-spacing:-.02em">Şanlıurfa Anadolu Lisesi</h2>
+                  <span style="font-size:11px; padding:3px 9px; border-radius:5px; background:#F4E0E4; color:#6E1B2C; font-weight:600">Okul · Lise</span>
+                </div>
+                <div style="display:flex; gap:18px; margin-top:12px; flex-wrap:wrap">
+                  <sc-for list="{{ kunye }}" as="k" hint-placeholder-count="5">
+                    <div><div style="font-size:11px; color:#9C8F92">{{ k.label }}</div><div style="font-size:13px; font-weight:500; margin-top:2px">{{ k.value }}</div></div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex; gap:8px; align-items:flex-start">
+                <span style="font-size:12.5px; font-weight:500; padding:8px 13px; border:1px solid #E4CFD4; border-radius:7px; color:#6E1B2C; background:#FDF8F8; cursor:pointer">Kişi ekle</span>
+                <span onClick="{{ goCreate }}" style="font-size:12.5px; font-weight:600; padding:8px 13px; border-radius:7px; color:#fff; background:#6E1B2C; cursor:pointer">Sipariş oluştur</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display:flex; gap:4px; border-bottom:1px solid #E9E1DE; overflow-x:auto">
+              <sc-for list="{{ cariTabs }}" as="c" hint-placeholder-count="4">
+                <div onClick="{{ c.pick }}" style="position:relative; padding:11px 15px; font-size:13px; cursor:pointer; white-space:nowrap; color:{{ c.fg }}; font-weight:{{ c.weight }}">
+                  <span>{{ c.label }}</span>
+                  <sc-if value="{{ c.on }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; left:8px; right:8px; bottom:-1px; height:2px; background:#6E1B2C; border-radius:2px"></span></sc-if>
+                </div>
+              </sc-for>
+              <div style="padding:11px 14px; font-size:13px; color:#A2969A; cursor:pointer">+ Cari</div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; margin-top:18px">
+              <sc-for list="{{ cariMetrics }}" as="m" hint-placeholder-count="3">
+                <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:16px 18px">
+                  <div style="display:flex; align-items:center; gap:7px">
+                    <span style="width:7px; height:7px; border-radius:50%; background:{{ m.dot }}"></span>
+                    <span style="font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:#988C90; font-weight:600">{{ m.label }}</span>
+                  </div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:24px; font-weight:500; letter-spacing:-.03em; margin-top:9px">{{ m.value }}</div>
+                  <div style="font-size:11.5px; color:#8A7E82; margin-top:6px; text-wrap:pretty">{{ m.note }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(400px,1fr)); gap:18px; margin-top:18px; align-items:start">
+              <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+                <div style="padding:16px 20px 14px; border-bottom:1px solid #EFE8E5"><h3 style="margin:0; font-size:14.5px; font-weight:600">Cari hareketleri</h3></div>
+                <sc-for list="{{ hareketler }}" as="h" hint-placeholder-count="6">
+                  <div style="display:flex; align-items:center; gap:14px; padding:12px 20px; border-bottom:1px solid #F3EDEA">
+                    <span style="flex:0 0 auto; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#9C8F92">{{ h.date }}</span>
+                    <span style="flex:0 0 auto; font-size:11px; font-weight:500; padding:2px 8px; border-radius:5px; background:{{ h.tagBg }}; color:{{ h.tagFg }}">{{ h.tag }}</span>
+                    <span style="flex:1; min-width:0; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ h.desc }}</span>
+                    <span style="flex:0 0 auto; font-family:'IBM Plex Mono',monospace; font-size:13px; color:{{ h.amountColor }}">{{ h.amount }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:14px">
+                <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:18px 20px">
+                  <h3 style="margin:0 0 12px; font-size:14.5px; font-weight:600">Kurumdaki kişiler</h3>
+                  <div style="display:flex; flex-direction:column; gap:12px">
+                    <sc-for list="{{ kisiler }}" as="p" hint-placeholder-count="4">
+                      <div style="display:flex; align-items:center; gap:11px">
+                        <div style="width:30px; height:30px; border-radius:50%; background:#F4E0E4; color:#6E1B2C; display:flex; align-items:center; justify-content:center; font-size:11.5px; font-weight:600; flex:0 0 auto">{{ p.ini }}</div>
+                        <div style="min-width:0; flex:1">
+                          <div style="font-size:13px; font-weight:500">{{ p.name }}</div>
+                          <div style="font-size:11.5px; color:#9C8F92">{{ p.role }}</div>
+                        </div>
+                        <sc-if value="{{ p.canOrder }}" hint-placeholder-val="{{ false }}"><span style="font-size:10.5px; padding:2px 7px; border-radius:5px; background:#EAF2ED; color:#2E6A4F; font-weight:500">kurum adına</span></sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="background:#FCF7F7; border:1px dashed #E4CFD4; border-radius:11px; padding:16px 18px">
+                  <div style="font-size:12.5px; font-weight:600; color:#6E1B2C">Bakiyeler toplanmaz</div>
+                  <div style="font-size:12px; color:#7A6E72; margin-top:5px; line-height:1.5; text-wrap:pretty">Kurumsal cari ile öğretmen carileri ayrı hukuki muhataplardır. Her cari kendi limiti ve riskiyle değerlendirilir.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ SİPARİŞ OLUŞTUR ══════════ -->
+      <sc-if value="{{ scSiparis }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(430px,1fr)); gap:18px; align-items:start">
+          <div style="display:flex; flex-direction:column; gap:16px">
+            <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:18px 20px">
+              <div style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#9C8F92; font-weight:600; margin-bottom:12px">1 · Muhatap</div>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px">
+                <sc-for list="{{ muhataplar }}" as="m" hint-placeholder-count="3">
+                  <div onClick="{{ m.pick }}" style="border:1px solid {{ m.border }}; background:{{ m.bg }}; border-radius:9px; padding:12px 14px; cursor:pointer">
+                    <div style="display:flex; align-items:center; gap:8px">
+                      <span style="width:14px; height:14px; border-radius:50%; border:1.5px solid {{ m.dotBorder }}; background:{{ m.dotBg }}; flex:0 0 auto"></span>
+                      <span style="font-size:13px; font-weight:500">{{ m.name }}</span>
+                    </div>
+                    <div style="font-size:11.5px; color:#8A7E82; margin-top:6px; margin-left:22px">{{ m.note }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+              <div style="padding:16px 20px 14px; border-bottom:1px solid #EFE8E5; display:flex; align-items:center; justify-content:space-between; gap:12px">
+                <div style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#9C8F92; font-weight:600">2 · Kalemler</div>
+                <div style="display:flex; align-items:center; gap:9px; border:1px solid #E5DBD7; border-radius:8px; padding:7px 11px; background:#FCFAF9; flex:1; max-width:340px">
+                  <span style="font-size:12px; color:#A2969A">Barkod / ürün</span>
+                  <input placeholder="okut ya da ara" style="border:0; background:transparent; outline:none; flex:1; font-size:12.5px">
+                </div>
+              </div>
+              <table style="width:100%; border-collapse:collapse">
+                <thead>
+                  <tr style="background:#FCFAF9">
+                    <th style="text-align:left; padding:8px 20px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Ürün</th>
+                    <th style="text-align:right; padding:8px 10px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Adet</th>
+                    <th style="text-align:right; padding:8px 10px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Fiyat</th>
+                    <th style="text-align:right; padding:8px 10px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">İsk.</th>
+                    <th style="text-align:right; padding:8px 20px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Tutar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ siparisKalem }}" as="s" hint-placeholder-count="4">
+                    <tr style="border-top:1px solid #F1EBE8">
+                      <td style="padding:12px 20px">
+                        <div style="font-size:13px; font-weight:500; text-wrap:pretty">{{ s.name }}</div>
+                        <div style="display:flex; align-items:center; gap:7px; margin-top:4px">
+                          <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#9C8F92">{{ s.barcode }}</span>
+                          <span style="font-size:10.5px; padding:1px 7px; border-radius:4px; background:{{ s.editionBg }}; color:{{ s.editionFg }}; font-weight:500">{{ s.edition }}</span>
+                        </div>
+                      </td>
+                      <td style="padding:12px 10px; text-align:right"><span style="display:inline-block; min-width:52px; border:1px solid #E5DBD7; border-radius:6px; padding:5px 8px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; background:#FCFAF9">{{ s.qty }}</span></td>
+                      <td style="padding:12px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px">{{ s.price }}</td>
+                      <td style="padding:12px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:{{ s.discColor }}">{{ s.disc }}</td>
+                      <td style="padding:12px 20px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500">{{ s.total }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="background:#FFFBF4; border:1px solid #EFDFC4; border-radius:11px; padding:14px 18px; display:flex; gap:13px; align-items:flex-start">
+              <span style="flex:0 0 auto; width:20px; height:20px; border-radius:50%; background:#A2661B; color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700">!</span>
+              <div style="flex:1">
+                <div style="font-size:13px; font-weight:600; color:#7A4C12">Bu ürünün 2026-27 baskısı var — 329,00 ₺</div>
+                <div style="font-size:12.5px; color:#8A6A3A; margin-top:4px">Seçili: 2025-26 baskısı · 249,00 ₺ · depoda 40 adet</div>
+              </div>
+              <div style="display:flex; gap:7px; flex:0 0 auto">
+                <span style="font-size:12px; font-weight:500; padding:7px 11px; border-radius:6px; background:#A2661B; color:#fff; cursor:pointer">Güncele geç</span>
+                <span style="font-size:12px; font-weight:500; padding:7px 11px; border-radius:6px; border:1px solid #E3CFAB; color:#7A4C12; cursor:pointer">Eskiyle devam</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:20px; position:sticky; top:120px">
+            <div style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#9C8F92; font-weight:600">3 · Özet</div>
+            <div style="display:flex; flex-direction:column; gap:10px; margin-top:14px">
+              <sc-for list="{{ ozet }}" as="o" hint-placeholder-count="4">
+                <div style="display:flex; justify-content:space-between; font-size:13px">
+                  <span style="color:#71666A">{{ o.label }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace; font-weight:500">{{ o.value }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:16px; padding-top:14px; border-top:1px solid #EFE8E5">
+              <span style="font-size:13px; font-weight:600">Genel toplam</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600; letter-spacing:-.03em">18.240,00 ₺</span>
+            </div>
+            <sc-if value="{{ riskWarn }}" hint-placeholder-val="{{ true }}">
+              <div style="margin-top:16px; background:#FCF3F2; border:1px solid #F0D6D3; border-radius:9px; padding:12px 14px">
+                <div style="font-size:12.5px; font-weight:600; color:#B0332B">Toplam risk limiti aşılıyor</div>
+                <div style="font-size:12px; color:#8A5A55; margin-top:5px; line-height:1.5">Bakiye 45.000 ₺ + vadeli çek 22.000 ₺ = 67.000 ₺. Limit 60.000 ₺. Sipariş sahibin onayına düşecek.</div>
+              </div>
+            </sc-if>
+            <div style="margin-top:14px; display:flex; flex-direction:column; gap:8px">
+              <div onClick="{{ goHazirlik }}" style="text-align:center; padding:12px; background:#6E1B2C; color:#fff; border-radius:8px; font-size:13.5px; font-weight:600; cursor:pointer" style-hover="background:#8E2740">Siparişi kaydet</div>
+              <div style="text-align:center; padding:11px; border:1px solid #E5DBD7; border-radius:8px; font-size:13px; color:#5C5155; cursor:pointer">Taslak olarak bırak</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ HAZIRLIK ══════════ -->
+      <sc-if value="{{ scHazirlik }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:16px; align-items:start">
+          <sc-for list="{{ hazirlikCols }}" as="col" hint-placeholder-count="3">
+            <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+              <div style="padding:14px 16px; border-bottom:1px solid #EFE8E5; display:flex; align-items:center; justify-content:space-between; background:{{ col.headBg }}">
+                <span style="font-size:13.5px; font-weight:600; color:{{ col.headFg }}">{{ col.title }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:{{ col.headFg }}; opacity:.7">{{ col.count }}</span>
+              </div>
+              <div style="padding:12px; display:flex; flex-direction:column; gap:10px">
+                <sc-for list="{{ col.cards }}" as="c" hint-placeholder-count="3">
+                  <div style="border:1px solid #EDE6E3; border-radius:9px; padding:12px 13px; background:#FDFCFB">
+                    <div style="display:flex; justify-content:space-between; gap:8px">
+                      <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#9C8F92">{{ c.no }}</span>
+                      <span style="font-size:11px; color:{{ c.ageColor }}">{{ c.age }}</span>
+                    </div>
+                    <div style="font-size:13px; font-weight:500; margin-top:6px">{{ c.account }}</div>
+                    <div style="font-size:11.5px; color:#9C8F92; margin-top:3px">{{ c.institution }}</div>
+                    <div style="display:flex; align-items:center; gap:10px; margin-top:10px; padding-top:10px; border-top:1px solid #F1EBE8">
+                      <span style="font-family:'IBM Plex Mono',monospace; font-size:12px">{{ c.lines }}</span>
+                      <sc-if value="{{ c.hasMissing }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-size:10.5px; padding:2px 7px; border-radius:5px; background:#FBF0EF; color:#B0332B; font-weight:500">{{ c.missing }} eksik</span>
+                      </sc-if>
+                      <span style="margin-left:auto; font-size:11.5px; font-weight:500; color:#6E1B2C">{{ c.cta }}</span>
+                    </div>
+                    <sc-if value="{{ c.hasWho }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-size:11px; color:#9C8F92; margin-top:8px">{{ c.who }}</div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ TESLİMAT ══════════ -->
+      <sc-if value="{{ scTeslimat }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(430px,1fr)); gap:18px; align-items:start">
+          <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+            <div style="padding:18px 20px; border-bottom:1px solid #EFE8E5">
+              <h2 style="margin:0; font-size:15px; font-weight:600">Teslimat kaydı · SPR-2026-0418</h2>
+              <p style="margin:5px 0 0; font-size:12.5px; color:#71666A">Şanlıurfa Anadolu Lisesi · Kurumsal cari</p>
+            </div>
+            <div style="padding:18px 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; border-bottom:1px solid #EFE8E5">
+              <div>
+                <div style="font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600; margin-bottom:8px">Teslimat tipi</div>
+                <div style="display:flex; flex-direction:column; gap:6px">
+                  <sc-for list="{{ teslimatTip }}" as="t" hint-placeholder-count="3">
+                    <div onClick="{{ t.pick }}" style="display:flex; align-items:center; gap:9px; border:1px solid {{ t.border }}; background:{{ t.bg }}; border-radius:7px; padding:9px 11px; cursor:pointer">
+                      <span style="width:13px; height:13px; border-radius:50%; border:1.5px solid {{ t.dotBorder }}; background:{{ t.dotBg }}; flex:0 0 auto"></span>
+                      <span style="font-size:12.5px; font-weight:500">{{ t.label }}</span>
+                      <span style="margin-left:auto; font-size:11px; color:#9C8F92">{{ t.hint }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600; margin-bottom:8px">Kaynak</div>
+                <div style="display:flex; gap:6px">
+                  <sc-for list="{{ kaynaklar }}" as="k" hint-placeholder-count="2">
+                    <div onClick="{{ k.pick }}" style="flex:1; text-align:center; border:1px solid {{ k.border }}; background:{{ k.bg }}; color:{{ k.fg }}; border-radius:7px; padding:9px; font-size:12.5px; font-weight:500; cursor:pointer">{{ k.label }}</div>
+                  </sc-for>
+                </div>
+                <div style="font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600; margin:16px 0 8px">Teslim alan</div>
+                <input value="Serpil Aydın — Müdür Yrd." style="width:100%; border:1px solid #E5DBD7; border-radius:7px; padding:9px 11px; font-size:12.5px; background:#FCFAF9">
+                <div style="font-size:11.5px; color:#9C8F92; margin-top:7px">Saat damgası otomatik · imza ve fotoğraf istenmez</div>
+              </div>
+            </div>
+            <table style="width:100%; border-collapse:collapse">
+              <thead>
+                <tr style="background:#FCFAF9">
+                  <th style="text-align:left; padding:8px 20px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Kalem</th>
+                  <th style="text-align:right; padding:8px 10px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Sipariş</th>
+                  <th style="text-align:right; padding:8px 10px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Teslim</th>
+                  <th style="text-align:right; padding:8px 20px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Kalan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ teslimKalem }}" as="t" hint-placeholder-count="4">
+                  <tr style="border-top:1px solid #F1EBE8">
+                    <td style="padding:12px 20px; font-size:13px">{{ t.name }}</td>
+                    <td style="padding:12px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#8A7E82">{{ t.ordered }}</td>
+                    <td style="padding:12px 10px; text-align:right"><span style="display:inline-block; min-width:52px; border:1px solid #E5DBD7; border-radius:6px; padding:5px 8px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; background:#FCFAF9">{{ t.delivered }}</span></td>
+                    <td style="padding:12px 20px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:{{ t.remainColor }}">{{ t.remain }}</td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:14px; position:sticky; top:120px">
+            <div style="background:#3F0F1B; color:#F6EDEE; border-radius:11px; padding:20px">
+              <div style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:rgba(246,237,238,.6); font-weight:600">Bu kayıt borç doğurur</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:28px; font-weight:500; letter-spacing:-.03em; margin-top:10px">+ 12.960,00 ₺</div>
+              <div style="font-size:12.5px; color:rgba(246,237,238,.72); margin-top:8px; line-height:1.5">Borç faturayla değil teslimatla doğar. Kısmi teslimde yalnızca teslim edilen kalemler borçlanır.</div>
+              <div style="margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.14); display:flex; justify-content:space-between; font-size:12.5px">
+                <span style="color:rgba(246,237,238,.7)">Teslimat sonrası bakiye</span>
+                <span style="font-family:'IBM Plex Mono',monospace; font-weight:500">57.960,00 ₺</span>
+              </div>
+            </div>
+            <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:18px 20px">
+              <div style="font-size:12px; color:#8A7E82; margin-bottom:9px">Belge no (opsiyonel)</div>
+              <input placeholder="Dışarıda kesilen belgenin numarası" style="width:100%; border:1px solid #E5DBD7; border-radius:7px; padding:9px 11px; font-size:12.5px; background:#FCFAF9">
+              <div onClick="{{ goTahsilat }}" style="margin-top:14px; text-align:center; padding:12px; background:#6E1B2C; color:#fff; border-radius:8px; font-size:13.5px; font-weight:600; cursor:pointer" style-hover="background:#8E2740">Teslimatı kaydet</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ TAHSİLAT ══════════ -->
+      <sc-if value="{{ scTahsilat }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(430px,1fr)); gap:18px; align-items:start">
+          <div style="display:flex; flex-direction:column; gap:16px">
+            <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:20px">
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px">
+                <div>
+                  <div style="font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600; margin-bottom:8px">Tahsilat tutarı</div>
+                  <div style="display:flex; align-items:baseline; gap:8px; border:1.5px solid #6E1B2C; border-radius:8px; padding:10px 13px; background:#FDF8F8">
+                    <input value="15.000,00" style="border:0; background:transparent; outline:none; width:100%; font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:500; letter-spacing:-.02em">
+                    <span style="font-size:16px; color:#8A7E82">₺</span>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600; margin-bottom:8px">Yöntem</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:6px">
+                    <sc-for list="{{ yontemler }}" as="y" hint-placeholder-count="5">
+                      <div onClick="{{ y.pick }}" style="border:1px solid {{ y.border }}; background:{{ y.bg }}; color:{{ y.fg }}; border-radius:7px; padding:9px 13px; font-size:12.5px; font-weight:500; cursor:pointer">{{ y.label }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+              <div style="padding:16px 20px 14px; border-bottom:1px solid #EFE8E5; display:flex; align-items:center; justify-content:space-between">
+                <h2 style="margin:0; font-size:14.5px; font-weight:600">Açık borçlar · FIFO mahsup önerisi</h2>
+                <span style="font-size:12px; color:#6E1B2C; font-weight:500; cursor:pointer">Dağılımı elle değiştir</span>
+              </div>
+              <sc-for list="{{ borclar }}" as="b" hint-placeholder-count="4">
+                <div style="padding:13px 20px; border-bottom:1px solid #F3EDEA; display:flex; align-items:center; gap:14px">
+                  <span style="flex:0 0 auto; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#9C8F92">{{ b.date }}</span>
+                  <div style="flex:1; min-width:0">
+                    <div style="font-size:13px; font-weight:500">{{ b.no }}</div>
+                    <div style="height:5px; background:#F1EBE8; border-radius:3px; margin-top:7px; overflow:hidden">
+                      <div style="height:100%; width:{{ b.pct }}; background:{{ b.barColor }}"></div>
+                    </div>
+                  </div>
+                  <div style="flex:0 0 auto; text-align:right">
+                    <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px">{{ b.amount }}</div>
+                    <div style="font-size:11px; color:{{ b.stateColor }}; margin-top:3px">{{ b.state }}</div>
+                  </div>
+                  <span style="flex:0 0 88px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:#2E6A4F">{{ b.alloc }}</span>
+                </div>
+              </sc-for>
+              <div style="padding:12px 20px; background:#FCFAF9; font-size:11.5px; color:#8A7E82">Bağlanmayan tutar avans olarak carinin alacağında bekler.</div>
+            </div>
+          </div>
+
+          <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden; position:sticky; top:120px">
+            <div style="padding:18px 20px; background:#FDF8F8; border-bottom:1px solid #EFE8E5">
+              <div style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#9C8F92; font-weight:600">Makbuz önizleme</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; margin-top:6px; color:#6E1B2C">MKB-2026-1043</div>
+            </div>
+            <div style="padding:18px 20px; display:flex; flex-direction:column; gap:12px">
+              <sc-for list="{{ makbuz }}" as="m" hint-placeholder-count="5">
+                <div style="display:flex; justify-content:space-between; gap:12px; font-size:12.5px">
+                  <span style="color:#8A7E82; flex:0 0 auto">{{ m.label }}</span>
+                  <span style="text-align:right; font-weight:500">{{ m.value }}</span>
+                </div>
+              </sc-for>
+              <div style="border-top:1px dashed #E9E1DE; padding-top:14px; margin-top:4px; display:flex; justify-content:space-between; align-items:baseline">
+                <span style="font-size:13px; font-weight:600">Tahsil edilen</span>
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600; letter-spacing:-.02em">15.000,00 ₺</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:12.5px; color:#71666A">
+                <span>Kalan bakiye</span><span style="font-family:'IBM Plex Mono',monospace">42.960,00 ₺</span>
+              </div>
+              <div onClick="{{ goCari }}" style="margin-top:8px; text-align:center; padding:12px; background:#6E1B2C; color:#fff; border-radius:8px; font-size:13.5px; font-weight:600; cursor:pointer" style-hover="background:#8E2740">Makbuzu kes</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ CARİ & TAHSİLAT ══════════ -->
+      <sc-if value="{{ scCari }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+          <div style="display:flex; gap:6px; padding:12px 16px; border-bottom:1px solid #EFE8E5; flex-wrap:wrap">
+            <sc-for list="{{ cariFilters }}" as="f" hint-placeholder-count="5">
+              <div onClick="{{ f.pick }}" style="position:relative; padding:6px 12px; border-radius:20px; font-size:12.5px; cursor:pointer; border:1px solid #E9E1DE">
+                <sc-if value="{{ f.on }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; inset:-1px; background:#3F0F1B; border-radius:20px"></span></sc-if>
+                <span style="position:relative; color:{{ f.fg }}">{{ f.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <table style="width:100%; border-collapse:collapse">
+            <thead>
+              <tr style="background:#FCFAF9">
+                <th style="text-align:left; padding:9px 16px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Cari</th>
+                <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Bakiye</th>
+                <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Vadeli çek</th>
+                <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Konsinye</th>
+                <th style="text-align:left; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Limit doluluk</th>
+                <th style="text-align:right; padding:9px 16px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Gecikme</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ cariler }}" as="c" hint-placeholder-count="8">
+                <tr style="border-top:1px solid #F1EBE8; cursor:pointer" style-hover="background:#FCFAF9">
+                  <td style="padding:13px 16px">
+                    <div style="display:flex; align-items:center; gap:8px">
+                      <span style="font-size:10.5px; padding:2px 7px; border-radius:4px; background:{{ c.typeBg }}; color:{{ c.typeFg }}; font-weight:600">{{ c.type }}</span>
+                      <span style="font-size:13.5px; font-weight:500">{{ c.name }}</span>
+                    </div>
+                    <div style="font-size:11.5px; color:#9C8F92; margin-top:3px">{{ c.institution }} · {{ c.rep }}</div>
+                  </td>
+                  <td style="padding:13px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500">{{ c.bakiye }}</td>
+                  <td style="padding:13px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#8A7E82">{{ c.cek }}</td>
+                  <td style="padding:13px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#8A7E82">{{ c.konsinye }}</td>
+                  <td style="padding:13px 12px">
+                    <div style="display:flex; align-items:center; gap:9px">
+                      <div style="flex:1; min-width:60px; height:5px; background:#F1EBE8; border-radius:3px; overflow:hidden">
+                        <div style="height:100%; width:{{ c.pct }}; background:{{ c.barColor }}"></div>
+                      </div>
+                      <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:{{ c.barColor }}">{{ c.pct }}</span>
+                    </div>
+                  </td>
+                  <td style="padding:13px 16px; text-align:right; font-size:12.5px; color:{{ c.lateColor }}">{{ c.late }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+          <div style="padding:12px 16px; background:#FCFAF9; border-top:1px solid #F1EBE8; font-size:11.5px; color:#8A7E82">Limit doluluk = (bakiye + vadesi gelmemiş çek) ÷ limit. Konsinye mülkiyeti dükkanda kaldığı için limite girmez.</div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ KONSİNYE ══════════ -->
+      <sc-if value="{{ scKonsinye }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; flex-direction:column; gap:16px">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px">
+            <sc-for list="{{ konsinyeKpi }}" as="k" hint-placeholder-count="4">
+              <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:15px 18px">
+                <div style="font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:#988C90; font-weight:600">{{ k.label }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:500; letter-spacing:-.03em; margin-top:8px">{{ k.value }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+            <table style="width:100%; border-collapse:collapse">
+              <thead>
+                <tr style="background:#FCFAF9">
+                  <th style="text-align:left; padding:9px 16px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Cari / ürün</th>
+                  <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Bırakılan</th>
+                  <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Satıldı</th>
+                  <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">İade</th>
+                  <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Kalan</th>
+                  <th style="text-align:right; padding:9px 16px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">İşlem</th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ konsinyeler }}" as="k" hint-placeholder-count="6">
+                  <tr style="border-top:1px solid #F1EBE8">
+                    <td style="padding:13px 16px">
+                      <div style="font-size:13px; font-weight:500">{{ k.product }}</div>
+                      <div style="font-size:11.5px; color:#9C8F92; margin-top:3px">{{ k.account }} · {{ k.date }} tarihinde bırakıldı</div>
+                    </td>
+                    <td style="padding:13px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px">{{ k.left }}</td>
+                    <td style="padding:13px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#2E6A4F">{{ k.sold }}</td>
+                    <td style="padding:13px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#8A7E82">{{ k.ret }}</td>
+                    <td style="padding:13px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:{{ k.remainColor }}">{{ k.remain }}</td>
+                    <td style="padding:13px 16px; text-align:right">
+                      <span style="font-size:11.5px; font-weight:500; padding:5px 10px; border:1px solid #E4CFD4; border-radius:6px; color:#6E1B2C; background:#FDF8F8; cursor:pointer">Satıldı</span>
+                      <span style="font-size:11.5px; font-weight:500; padding:5px 10px; border:1px solid #E5DBD7; border-radius:6px; color:#5C5155; cursor:pointer; margin-left:5px">İade</span>
+                    </td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+            <div style="padding:12px 16px; background:#FCFAF9; border-top:1px solid #F1EBE8; font-size:11.5px; color:#8A7E82">Kalan konsinye üç olay kaydından türetilir: bırakılan − satıldı − iade. Ayrı defter tutulmaz.</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ KATALOG ══════════ -->
+      <sc-if value="{{ scKatalog }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+          <div style="display:flex; gap:10px; padding:14px 16px; border-bottom:1px solid #EFE8E5; flex-wrap:wrap; align-items:center">
+            <div style="flex:1 1 220px; display:flex; align-items:center; gap:9px; border:1px solid #E5DBD7; border-radius:8px; padding:8px 12px; background:#FCFAF9">
+              <span style="color:#A2969A; font-size:12.5px">Ara</span>
+              <input placeholder="Ürün adı, barkod veya yayınevi" style="border:0; background:transparent; outline:none; flex:1; font-size:13px">
+            </div>
+            <sc-for list="{{ katalogFilters }}" as="f" hint-placeholder-count="4">
+              <div onClick="{{ f.pick }}" style="position:relative; padding:8px 13px; border-radius:8px; font-size:12.5px; cursor:pointer; border:1px solid #E9E1DE">
+                <sc-if value="{{ f.on }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; inset:-1px; background:#3F0F1B; border-radius:8px"></span></sc-if>
+                <span style="position:relative; color:{{ f.fg }}">{{ f.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <table style="width:100%; border-collapse:collapse">
+            <thead>
+              <tr style="background:#FCFAF9">
+                <th style="text-align:left; padding:9px 16px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Ürün</th>
+                <th style="text-align:left; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Baskı</th>
+                <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Liste</th>
+                <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Satış</th>
+                <th style="text-align:right; padding:9px 12px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Vars. isk.</th>
+                <th style="text-align:right; padding:9px 16px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">Stok</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ urunler }}" as="u" hint-placeholder-count="8">
+                <tr style="border-top:1px solid #F1EBE8; cursor:pointer" style-hover="background:#FCFAF9">
+                  <td style="padding:12px 16px">
+                    <div style="font-size:13px; font-weight:500; text-wrap:pretty">{{ u.name }}</div>
+                    <div style="font-size:11.5px; color:#9C8F92; margin-top:3px">{{ u.publisher }} · {{ u.grade }} · {{ u.barcode }}</div>
+                  </td>
+                  <td style="padding:12px 12px">
+                    <span style="font-size:10.5px; padding:2px 7px; border-radius:4px; background:{{ u.edBg }}; color:{{ u.edFg }}; font-weight:500">{{ u.edition }}</span>
+                  </td>
+                  <td style="padding:12px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#A2969A; text-decoration:line-through">{{ u.list }}</td>
+                  <td style="padding:12px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500">{{ u.price }}</td>
+                  <td style="padding:12px 12px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px">{{ u.disc }}</td>
+                  <td style="padding:12px 16px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:{{ u.stockColor }}">{{ u.stock }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+          <div style="padding:12px 16px; background:#FCFAF9; border-top:1px solid #F1EBE8; font-size:11.5px; color:#8A7E82">Liste fiyatı yalnızca gösterimdir; hesap satış fiyatı üzerinden yapılır. “takip yok” işaretli ürünlerin stoğu başka sistemde yönetilir.</div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ DENEME TAKVİMİ ══════════ -->
+      <sc-if value="{{ scDeneme }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(430px,1fr)); gap:18px; align-items:start">
+          <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; overflow:hidden">
+            <div style="padding:14px 18px; border-bottom:1px solid #EFE8E5; display:flex; align-items:center; gap:14px">
+              <h2 style="margin:0; font-size:15.5px; font-weight:600; letter-spacing:-.01em">Ekim 2026</h2>
+              <div style="display:flex; gap:5px">
+                <span style="width:26px; height:26px; border:1px solid #E5DBD7; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:12px; cursor:pointer; color:#71666A">‹</span>
+                <span style="width:26px; height:26px; border:1px solid #E5DBD7; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:12px; cursor:pointer; color:#71666A">›</span>
+              </div>
+              <div style="margin-left:auto; display:flex; flex-wrap:wrap; justify-content:flex-end; gap:6px 14px; font-size:11.5px; color:#71666A">
+                <span style="display:flex; align-items:center; gap:6px"><span style="width:8px; height:8px; border-radius:2px; background:#6E1B2C"></span>Türkiye Geneli</span>
+                <span style="display:flex; align-items:center; gap:6px"><span style="width:8px; height:8px; border-radius:2px; background:#A2661B"></span>Takvim</span>
+                <span style="display:flex; align-items:center; gap:6px"><span style="width:8px; height:8px; border-radius:2px; background:#3E6E8E"></span>Deneme Kulübü</span>
+              </div>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(7,1fr); background:#FCFAF9; border-bottom:1px solid #EFE8E5">
+              <sc-for list="{{ weekdays }}" as="w" hint-placeholder-count="7">
+                <div style="padding:8px 10px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#9C8F92; font-weight:600">{{ w.d }}</div>
+              </sc-for>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(7,1fr)">
+              <sc-for list="{{ days }}" as="d" hint-placeholder-count="35">
+                <div style="min-height:88px; border-right:1px solid #F3EDEA; border-bottom:1px solid #F3EDEA; padding:7px 8px; background:{{ d.bg }}">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:{{ d.numColor }}">{{ d.n }}</div>
+                  <div style="display:flex; flex-direction:column; gap:4px; margin-top:6px">
+                    <sc-for list="{{ d.events }}" as="e" hint-placeholder-count="0">
+                      <div style="font-size:10.5px; font-weight:500; line-height:1.3; padding:3px 6px; border-radius:4px; background:{{ e.bg }}; color:{{ e.fg }}; text-wrap:pretty">{{ e.label }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:14px; position:sticky; top:120px">
+            <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:18px 20px">
+              <div style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#9C8F92; font-weight:600">14 Ekim · Çarşamba</div>
+              <div style="font-size:16px; font-weight:600; letter-spacing:-.015em; margin-top:7px">TG-3 Türkiye Geneli · 8. Sınıf</div>
+              <div style="display:flex; gap:7px; margin-top:10px; flex-wrap:wrap">
+                <span style="font-size:11px; padding:3px 8px; border-radius:5px; background:#F4E0E4; color:#6E1B2C; font-weight:600">Ulusal · sabit tarih</span>
+                <span style="font-size:11px; padding:3px 8px; border-radius:5px; background:#EAF2ED; color:#2E6A4F; font-weight:600">Stok 07 Ekim</span>
+              </div>
+              <div style="margin-top:14px; display:flex; flex-direction:column; gap:10px">
+                <sc-for list="{{ denemeDetay }}" as="d" hint-placeholder-count="4">
+                  <div style="display:flex; justify-content:space-between; font-size:12.5px">
+                    <span style="color:#8A7E82">{{ d.label }}</span><span style="font-weight:500">{{ d.value }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="margin-top:14px; text-align:center; padding:11px; background:#6E1B2C; color:#fff; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer" style-hover="background:#8E2740">Kurumlara öner</div>
+            </div>
+            <div style="background:#fff; border:1px solid #E9E1DE; border-radius:11px; padding:18px 20px">
+              <h3 style="margin:0 0 12px; font-size:14px; font-weight:600">Bu denemenin programları</h3>
+              <div style="display:flex; flex-direction:column; gap:11px">
+                <sc-for list="{{ programlar }}" as="p" hint-placeholder-count="4">
+                  <div style="display:flex; align-items:center; gap:10px">
+                    <div style="min-width:0; flex:1">
+                      <div style="font-size:12.5px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ p.name }}</div>
+                      <div style="font-size:11px; color:#9C8F92; margin-top:2px">{{ p.qty }} öğrenci</div>
+                    </div>
+                    <span style="flex:0 0 auto; font-size:10.5px; font-weight:500; padding:2px 7px; border-radius:5px; background:{{ p.bg }}; color:{{ p.fg }}">{{ p.state }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;navStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;sidebar&quot;,&quot;rail&quot;,&quot;topbar&quot;],&quot;default&quot;:&quot;sidebar&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Düzen&quot;},&quot;dashboardLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;],&quot;default&quot;:&quot;A&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Düzen&quot;},&quot;showRiskWarnings&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Davranış&quot;},&quot;storeLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;3 dükkan · Şanlıurfa&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Davranış&quot;}}">
+const I = (p) => React.createElement('svg', {width:18,height:18,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:1.7,strokeLinecap:'round',strokeLinejoin:'round'}, p.map((d,i)=>React.createElement('path',{key:i,d})));
+const ICONS = {
+  dash: ['M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-4H4zM14 7h6V4h-6'],
+  talep: ['M5 4h11l3 3v13H5z','M9 10h7','M9 14h5'],
+  hazirlik: ['M4 7l8-3 8 3v10l-8 3-8-3z','M4 7l8 3 8-3','M12 10v10'],
+  teslimat: ['M3 7h11v9H3z','M14 10h4l3 3v3h-7','M6.5 19a1.5 1.5 0 100-3 1.5 1.5 0 000 3','M17.5 19a1.5 1.5 0 100-3 1.5 1.5 0 000 3'],
+  tahsilat: ['M3 7h18v10H3z','M3 11h18','M7 15h3'],
+  cari: ['M4 5h16v14H4z','M4 10h16','M9 5v14'],
+  konsinye: ['M5 8h14v11H5z','M9 8V5h6v3','M9 13h6'],
+  kurum: ['M3 20h18','M5 20V9l7-4 7 4v11','M10 20v-5h4v5'],
+  katalog: ['M5 4h6v16H5z','M13 4h6v16h-6','M8 8h0','M16 8h0'],
+  deneme: ['M4 6h16v14H4z','M4 10h16','M8 4v4','M16 4v4','M8 14h3','M13 17h3'],
+  siparis: ['M4 6h16','M4 12h16','M4 18h10']
+};
+const SCREENS = [
+  {k:'dash', label:'Panel', icon:'dash', crumb:'Genel', title:'Panel', sub:'Üç dükkanın dönem özeti, bekleyen onaylar ve müdahale gereken işler.'},
+  {k:'talep', label:'Talepler', icon:'talep', badge:'47', crumb:'Talep akışı', title:'Gelen talepler', sub:'Kalem bazında onayla ya da reddet; en az bir onaylı kalem varsa sipariş doğar.'},
+  {k:'hazirlik', label:'Hazırlık', icon:'hazirlik', badge:'12', crumb:'Sipariş', title:'Hazırlanacak siparişler', sub:'Sahadan senkron olan siparişler buraya düşer. Kim hazırladı ve ne kadar sürdü kaydedilir.'},
+  {k:'teslimat', label:'Teslimatlar', icon:'teslimat', crumb:'Sipariş', title:'Teslimat kaydı', sub:'Borç faturayla değil, teslimatla doğar. Kısmi teslimde kalan backorder olarak bekler.'},
+  {k:'tahsilat', label:'Tahsilat', icon:'tahsilat', crumb:'Cari', title:'Tahsilat al', sub:'Mahsup en eski açık borçtan başlar; dağılımı elle değiştirebilirsin.'},
+  {k:'cari', label:'Cariler', icon:'cari', crumb:'Cari', title:'Cari ve tahsilat', sub:'Her cari kendi bakiyesi, limiti ve riskiyle değerlendirilir — kurum düzeyinde toplanmaz.'},
+  {k:'konsinye', label:'Konsinye', icon:'konsinye', crumb:'Cari', title:'Açık konsinyeler', sub:'Kalan konsinye bırakılan, satılan ve iade kayıtlarından türetilir.'},
+  {k:'kurum', label:'Kurumlar', icon:'kurum', crumb:'Dizin', title:'Kurumlar', sub:'Okul ve özel kurs merkezleri tek dizinde; zincir kurumlar merkez altında gruplanır.'},
+  {k:'kurumDetay', label:'Kurum detayı', icon:'kurum', hidden:true, crumb:'Dizin · Kurum', title:'Kurum detayı', sub:'Kurumun künyesi ve altındaki tüm cariler. Bakiyeler hiçbir yerde toplanmaz.'},
+  {k:'siparis', label:'Sipariş oluştur', icon:'siparis', hidden:true, crumb:'Sipariş', title:'Sipariş oluştur', sub:'Muhatabı seç, kalemleri gir. Fiyat ve maliyet sipariş anında damgalanır.'},
+  {k:'katalog', label:'Katalog', icon:'katalog', crumb:'Ürün', title:'Katalog ve fiyatlar', sub:'Ürün kimliği işletmede ortak; fiyat, iskonto ve stok dükkana özeldir.'},
+  {k:'deneme', label:'Deneme takvimi', icon:'deneme', crumb:'Deneme', title:'Deneme takvimi', sub:'Yılda 267 kalem. Türkiye Geneli tarihleri sabittir, takvim denemelerinin tarihini kurum seçer.'}
+];
+const F = { on:{border:'#6E1B2C', bg:'#FDF8F8', dotBorder:'#6E1B2C', dotBg:'#6E1B2C'}, off:{border:'#E5DBD7', bg:'#fff', dotBorder:'#CBBEC1', dotBg:'transparent'} };
+
+class Component extends DCLogic {
+  state = { screen:'dash', nav:'sidebar', dash:'A', talepF:0, cariF:0, katF:0, cariTab:0, muhatap:0, tip:0, kaynak:1, yontem:0, rejected:{} };
+  go = (k) => () => this.setState({ screen:k });
+  set = (o) => () => this.setState(o);
+
+  renderVals() {
+    const s = this.state;
+    const nav = s.navTouched ? s.nav : (this.props.navStyle ?? 'sidebar');
+    const dash = s.dashTouched ? s.dash : (this.props.dashboardLayout ?? 'A');
+    const cur = SCREENS.find(x => x.k === s.screen) || SCREENS[0];
+    const pick = (on) => on ? F.on : F.off;
+
+    return {
+      storeLabel: this.props.storeLabel ?? '3 dükkan · Şanlıurfa',
+      navLeft: nav !== 'topbar', navTop: nav === 'topbar', navWide: nav === 'sidebar',
+      navItems: SCREENS.filter(x => !x.hidden).map(x => ({
+        label:x.label, icon:I(ICONS[x.icon]), active:x.k === s.screen, go:this.go(x.k),
+        badgeVisible: nav !== 'rail' && !!x.badge, badge:x.badge
+      })),
+      navModes: [['sidebar','Kenar'],['rail','İnce'],['topbar','Üst']].map(([v,l]) => ({label:l, on:nav===v, pick:this.set({nav:v, navTouched:true})})),
+      dashModes: [['A','A · ölçüm önce'],['B','B · iş kuyruğu önce']].map(([v,l]) => ({label:l, on:dash===v, pick:this.set({dash:v, dashTouched:true})})),
+      crumb:cur.crumb, pageTitle:cur.title, pageSub:cur.sub,
+      goCreate:this.go('siparis'), goHazirlik:this.go('hazirlik'), goTahsilat:this.go('tahsilat'), goCari:this.go('cari'),
+      scDash:s.screen==='dash', scTalep:s.screen==='talep', scKurum:s.screen==='kurum', scKurumDetay:s.screen==='kurumDetay',
+      scSiparis:s.screen==='siparis', scHazirlik:s.screen==='hazirlik', scTeslimat:s.screen==='teslimat',
+      scTahsilat:s.screen==='tahsilat', scCari:s.screen==='cari', scKonsinye:s.screen==='konsinye',
+      scKatalog:s.screen==='katalog', scDeneme:s.screen==='deneme',
+      dashA:dash==='A', dashB:dash==='B',
+      riskWarn: this.props.showRiskWarnings ?? true,
+
+      kpis:[
+        {label:'Dönem cirosu', value:'1.284.500 ₺', delta:'+18%', deltaColor:'#2E6A4F', note:'geçen döneme göre'},
+        {label:'Tahsilat', value:'892.300 ₺', delta:'%69', deltaColor:'#2E6A4F', note:'ciroya oran'},
+        {label:'Açık bakiye', value:'392.200 ₺', delta:'4 cari', deltaColor:'#B0332B', note:'gecikmede'},
+        {label:'Açık talep', value:'47', delta:'3 SLA aştı', deltaColor:'#A2661B', note:'24 saat'}
+      ],
+      funnel:[
+        {label:'Gönderildi', n:'214', pct:'100%', color:'#3F0F1B'},
+        {label:'İncelemede', n:'47', pct:'22%', color:'#A2661B'},
+        {label:'Karara bağlandı', n:'167', pct:'78%', color:'#6E1B2C'},
+        {label:'Siparişe döndü', n:'152', pct:'71%', color:'#2E6A4F'}
+      ],
+      stores:[
+        {name:'Kitap Dünyası', city:'Haliliye', reps:'6', ciro:'612.400 ₺', tahsilat:'451.800 ₺', bakiye:'160.600 ₺'},
+        {name:'Anadolu Kitap', city:'Karaköprü', reps:'4', ciro:'428.900 ₺', tahsilat:'304.100 ₺', bakiye:'124.800 ₺'},
+        {name:'Şanlı Kitap Merkezi', city:'Siverek', reps:'3', ciro:'243.200 ₺', tahsilat:'136.400 ₺', bakiye:'106.800 ₺'}
+      ],
+      approvals:[
+        {title:'Şanlıurfa Anadolu Lisesi · Kurumsal', reason:'İskonto tavanı aşıldı — %32', amount:'18.240 ₺', color:'#A2661B'},
+        {title:'Ahmet Yıldız Öğr. · Matematik', reason:'Toplam risk limiti doldu', amount:'9.480 ₺', color:'#B0332B'},
+        {title:'Nurcan Dershanesi · Merkez', reason:'İskonto tavanı aşıldı — %28', amount:'44.100 ₺', color:'#A2661B'},
+        {title:'Ayşe Demir Öğr. · Fizik', reason:'Numune limiti aşıldı', amount:'1.260 ₺', color:'#6E1B2C'}
+      ],
+      cheques:[
+        {day:'02', mon:'Eyl', who:'Nurcan Dershanesi', bank:'Ziraat · Haliliye', amount:'22.000 ₺'},
+        {day:'11', mon:'Eyl', who:'Y Koleji — Kurumsal', bank:'Vakıfbank · Merkez', amount:'35.500 ₺'},
+        {day:'19', mon:'Eyl', who:'Mehmet Şahin Öğr.', bank:'İş Bankası · Siverek', amount:'6.800 ₺'}
+      ],
+      queue:[
+        {tag:'SLA', tagBg:'#FBF0EF', tagFg:'#B0332B', title:'Ayşe Demir Öğr. talebi 31 saattir bekliyor', meta:'Portföy: Kemal Arslan · 5 kalem', amount:'7.320 ₺', action:'Ata'},
+        {tag:'ONAY', tagBg:'#FDF3E7', tagFg:'#A2661B', title:'Şanlıurfa Anadolu Lisesi · iskonto %32', meta:'Tavan %25 · Kurumsal cari', amount:'18.240 ₺', action:'İncele'},
+        {tag:'HAZIR', tagBg:'#F0F4F7', tagFg:'#3E6E8E', title:'4 sipariş hazırlanmayı bekliyor', meta:'En eskisi 2 gündür kutuda', amount:'52.400 ₺', action:'Kutuya git'},
+        {tag:'VADE', tagBg:'#FBF0EF', tagFg:'#B0332B', title:'Nurcan Dershanesi çeki 7 gün içinde', meta:'Ziraat · Haliliye · portföyde', amount:'22.000 ₺', action:'Vade takvimi'},
+        {tag:'GECİK', tagBg:'#FBF0EF', tagFg:'#B0332B', title:'Mehmet Şahin Öğr. 46 gün gecikmede', meta:'Cari durumu: tahsilatta', amount:'12.400 ₺', action:'Tahsilat'},
+        {tag:'KONS', tagBg:'#F4E0E4', tagFg:'#6E1B2C', title:'Y Koleji konsinyesi dönem sonuna 30 gün', meta:'Kalan 84 adet · kapatılmalı', amount:'26.880 ₺', action:'Kapat'}
+      ],
+
+      talepFilters: ['Tümü · 47','İncelemede · 12','SLA aştı · 3','Öğretmenden · 28','Kurumsal · 19'].map((l,i)=>({label:l, on:s.talepF===i, fg:s.talepF===i?'#F6EDEE':'#5C5155', pick:this.set({talepF:i})})),
+      talepler:[
+        {account:'Ahmet Yıldız Öğr. — Matematik', institution:'Şanlıurfa Anadolu Lisesi', source:'öğretmen', items:'5 kalem', status:'İncelemede', badgeBg:'#FDF3E7', badgeFg:'#A2661B', age:'31 sa', ageColor:'#B0332B', open:this.set({screen:'talep'})},
+        {account:'Kurumsal — Nurcan Dershanesi', institution:'Merkez şube', source:'pazarlamacı', items:'12 kalem', status:'İncelemede', badgeBg:'#FDF3E7', badgeFg:'#A2661B', age:'6 sa', ageColor:'#71666A', open:this.set({screen:'talep'})},
+        {account:'Ayşe Demir Öğr. — Fizik', institution:'Y Koleji', source:'öğretmen', items:'3 kalem', status:'Karara bağlandı', badgeBg:'#EAF2ED', badgeFg:'#2E6A4F', age:'2 gün', ageColor:'#71666A', open:this.set({screen:'talep'})},
+        {account:'Kurumsal — Şanlıurfa Anadolu Lisesi', institution:'Haliliye', source:'pazarlamacı', items:'8 kalem', status:'Gönderildi', badgeBg:'#F0F4F7', badgeFg:'#3E6E8E', age:'1 sa', ageColor:'#71666A', open:this.set({screen:'talep'})},
+        {account:'Rehberlik Servisi', institution:'Atatürk Ortaokulu', source:'öğretmen', items:'2 kalem', status:'İncelemede', badgeBg:'#FDF3E7', badgeFg:'#A2661B', age:'27 sa', ageColor:'#B0332B', open:this.set({screen:'talep'})},
+        {account:'Mehmet Şahin Öğr. — Türkçe', institution:'Siverek İmam Hatip', source:'öğretmen', items:'6 kalem', status:'Kısmen reddedildi', badgeBg:'#FBF0EF', badgeFg:'#B0332B', age:'3 gün', ageColor:'#71666A', open:this.set({screen:'talep'})},
+        {account:'Kurumsal — Etüt Akademi', institution:'Karaköprü', source:'pazarlamacı', items:'9 kalem', status:'Karara bağlandı', badgeBg:'#EAF2ED', badgeFg:'#2E6A4F', age:'4 gün', ageColor:'#71666A', open:this.set({screen:'talep'})}
+      ],
+      detay:{no:'TLP-2026-1187', account:'Ahmet Yıldız Öğr. — Matematik', institution:'Şanlıurfa Anadolu Lisesi · öğretmen carisi', bakiye:'8.400 ₺', limit:'10.000 ₺', konsinye:'30 adet', toplam:'6.930,00 ₺'},
+      detayKalem:[
+        {name:'8. Sınıf Matematik Soru Bankası', qty:'40', price:'149,00 ₺', rejected:false},
+        {name:'LGS Matematik Deneme Seti', qty:'25', price:'99,00 ₺', rejected:false},
+        {name:'8. Sınıf Fen Bilimleri Konu Anlatım', qty:'30', price:'129,00 ₺', rejected:true},
+        {name:'LGS Tam Sayılar Föy Seti', qty:'15', price:'59,00 ₺', rejected:false}
+      ].map((k,i) => {
+        const rej = s.rejected[i] ?? k.rejected;
+        return {...k, rejected:rej,
+          approve:this.set({rejected:{...s.rejected, [i]:false}}), reject:this.set({rejected:{...s.rejected, [i]:true}}),
+          okBg: rej?'#fff':'#EAF2ED', okFg: rej?'#8A7E82':'#2E6A4F', okBorder: rej?'#E5DBD7':'#CFE2D6',
+          noBg: rej?'#FBF0EF':'#fff', noFg: rej?'#B0332B':'#8A7E82', noBorder: rej?'#F0D6D3':'#E5DBD7'};
+      }),
+
+      kurumFilters:[{label:'İl',value:'Şanlıurfa'},{label:'İlçe',value:'Tümü'},{label:'Tip',value:'Okul + kurs'},{label:'Kademe',value:'Tümü'}],
+      kurumlar:[
+        {name:'Şanlıurfa Anadolu Lisesi', district:'Haliliye', students:'1.240', type:'Okul · Lise · Anadolu', accounts:'4', volume:'186.400 ₺', visit:'3 gün önce', visitColor:'#5C5155', open:this.go('kurumDetay')},
+        {name:'Nurcan Dershanesi — Merkez', district:'Haliliye', students:'860', type:'Kurs merkezi · LGS, TYT', accounts:'2', volume:'204.900 ₺', visit:'1 gün önce', visitColor:'#5C5155', child:false, open:this.go('kurumDetay')},
+        {name:'Nurcan Dershanesi Karaköprü', district:'Karaköprü', students:'410', type:'Kurs merkezi · şube', accounts:'1', volume:'62.300 ₺', visit:'12 gün önce', visitColor:'#5C5155', child:true, indent:'20px', open:this.go('kurumDetay')},
+        {name:'Nurcan Dershanesi Siverek', district:'Siverek', students:'295', type:'Kurs merkezi · şube', accounts:'1', volume:'38.100 ₺', visit:'41 gün önce', visitColor:'#B0332B', child:true, indent:'20px', open:this.go('kurumDetay')},
+        {name:'Atatürk Ortaokulu', district:'Haliliye', students:'720', type:'Okul · Ortaokul', accounts:'3', volume:'94.700 ₺', visit:'8 gün önce', visitColor:'#5C5155', open:this.go('kurumDetay')},
+        {name:'Y Koleji', district:'Karaköprü', students:'640', type:'Okul · Özel · Lise', accounts:'5', volume:'168.200 ₺', visit:'2 gün önce', visitColor:'#5C5155', open:this.go('kurumDetay')},
+        {name:'Etüt Akademi', district:'Karaköprü', students:'180', type:'Kurs merkezi · etüt', accounts:'1', volume:'21.600 ₺', visit:'19 gün önce', visitColor:'#5C5155', unverified:true, open:this.go('kurumDetay')},
+        {name:'Siverek Anadolu İmam Hatip', district:'Siverek', students:'510', type:'Okul · Lise · İmam Hatip', accounts:'2', volume:'47.300 ₺', visit:'34 gün önce', visitColor:'#B0332B', open:this.go('kurumDetay')}
+      ].map(k => ({indent:'0px', child:false, unverified:false, ...k})),
+
+      kunye:[
+        {label:'İlçe', value:'Haliliye'},{label:'MEB kodu', value:'748219'},
+        {label:'Öğrenci', value:'1.240 (tahminî)'},{label:'Son ziyaret', value:'3 gün önce · Kemal Arslan'},
+        {label:'Portföy', value:'Kemal Arslan'}
+      ],
+      cariTabs: ['Kurumsal','Ahmet Yıldız Öğr.','Ayşe Demir Öğr.','Rehberlik Servisi'].map((l,i)=>({label:l, on:s.cariTab===i, fg:s.cariTab===i?'#1A1518':'#8A7E82', weight:s.cariTab===i?'600':'400', pick:this.set({cariTab:i})})),
+      cariMetrics:[
+        {label:'Bakiye', value:'45.000 ₺', note:'Limit 60.000 ₺ · %75 dolu', dot:'#6E1B2C'},
+        {label:'Vadeli çek', value:'22.000 ₺', note:'Portföyde, vadesi gelmemiş', dot:'#A2661B'},
+        {label:'Konsinye', value:'120 adet', note:'38.400 ₺ · limite girmez', dot:'#3E6E8E'}
+      ],
+      hareketler:[
+        {date:'18 Ağu', tag:'TESLİMAT', tagBg:'#F4E0E4', tagFg:'#6E1B2C', desc:'SPR-2026-0418 · 6 kalem · elden', amount:'+12.960 ₺', amountColor:'#B0332B'},
+        {date:'12 Ağu', tag:'TAHSİLAT', tagBg:'#EAF2ED', tagFg:'#2E6A4F', desc:'MKB-2026-1038 · havale', amount:'−15.000 ₺', amountColor:'#2E6A4F'},
+        {date:'04 Ağu', tag:'KONSİNYE', tagBg:'#F0F4F7', tagFg:'#3E6E8E', desc:'40 adet bırakıldı · borç doğmadı', amount:'0 ₺', amountColor:'#8A7E82'},
+        {date:'29 Tem', tag:'TESLİMAT', tagBg:'#F4E0E4', tagFg:'#6E1B2C', desc:'SPR-2026-0392 · kısmi · 3/8 kalem', amount:'+8.700 ₺', amountColor:'#B0332B'},
+        {date:'21 Tem', tag:'İADE', tagBg:'#FBF0EF', tagFg:'#B0332B', desc:'2 adet · damgalı fiyattan', amount:'−298 ₺', amountColor:'#2E6A4F'},
+        {date:'15 Tem', tag:'ÇEK', tagBg:'#FDF3E7', tagFg:'#A2661B', desc:'Vakıfbank · vade 11 Eylül', amount:'22.000 ₺', amountColor:'#8A7E82'}
+      ],
+      kisiler:[
+        {ini:'SA', name:'Serpil Aydın', role:'Müdür yardımcısı', canOrder:true},
+        {ini:'AY', name:'Ahmet Yıldız', role:'Matematik · kendi carisi var', canOrder:false},
+        {ini:'AD', name:'Ayşe Demir', role:'Fizik · kendi carisi var', canOrder:false},
+        {ini:'HK', name:'Hüseyin Kılıç', role:'Rehber öğretmen', canOrder:false}
+      ],
+
+      muhataplar: [
+        {name:'Kurumsal — Şanlıurfa Anadolu Lisesi', note:'Bakiye 45.000 ₺ · limit 60.000 ₺'},
+        {name:'Ahmet Yıldız Öğr. — Matematik', note:'Bakiye 8.400 ₺ · limit 10.000 ₺'},
+        {name:'Ayşe Demir Öğr. — Fizik', note:'Bakiye 3.600 ₺ · limit 5.000 ₺'}
+      ].map((m,i)=>({...m, ...pick(s.muhatap===i), pick:this.set({muhatap:i})})),
+      siparisKalem:[
+        {name:'8. Sınıf Matematik Soru Bankası', barcode:'9786053...4127', qty:'40', price:'149,00 ₺', disc:'%20', discColor:'#2E6A4F', total:'4.768,00 ₺', edition:'2026-27 · güncel', editionBg:'#EAF2ED', editionFg:'#2E6A4F'},
+        {name:'LGS Matematik 12 Deneme Seti', barcode:'9786053...9812', qty:'25', price:'99,00 ₺', disc:'%20', discColor:'#2E6A4F', total:'1.980,00 ₺', edition:'2026-27 · güncel', editionBg:'#EAF2ED', editionFg:'#2E6A4F'},
+        {name:'8. Sınıf Fen Bilimleri Konu Anlatım', barcode:'9786053...5540', qty:'30', price:'249,00 ₺', disc:'%32', discColor:'#B0332B', total:'5.079,60 ₺', edition:'2025-26 · eski baskı', editionBg:'#FDF3E7', editionFg:'#A2661B'},
+        {name:'LGS Türkçe Paragraf Föy Seti', barcode:'9786053...3308', qty:'60', price:'129,00 ₺', disc:'%18', discColor:'#2E6A4F', total:'6.346,80 ₺', edition:'2026-27 · güncel', editionBg:'#EAF2ED', editionFg:'#2E6A4F'}
+      ],
+      ozet:[
+        {label:'4 kalem · 155 adet', value:'22.755,00 ₺'},
+        {label:'Satır iskontoları', value:'−4.515,00 ₺'},
+        {label:'İskonto ortalaması', value:'%22,4'},
+        {label:'Damgalanan maliyet', value:'13.420,00 ₺'}
+      ],
+
+      hazirlikCols:[
+        {title:'Yeni geldi', count:'4', headBg:'#FCFAF9', headFg:'#1A1518', cards:[
+          {no:'SPR-2026-0431', age:'2 gün', ageColor:'#B0332B', account:'Kurumsal — Y Koleji', institution:'Karaköprü', lines:'11 kalem · 320 adet', cta:'Hazırlamaya başla', hasWho:false, hasMissing:false},
+          {no:'SPR-2026-0434', age:'6 sa', ageColor:'#9C8F92', account:'Ahmet Yıldız Öğr.', institution:'Şanlıurfa Anadolu Lisesi', lines:'5 kalem · 90 adet', cta:'Hazırlamaya başla', hasWho:false, hasMissing:false},
+          {no:'SPR-2026-0435', age:'4 sa', ageColor:'#9C8F92', account:'Kurumsal — Etüt Akademi', institution:'Karaköprü', lines:'3 kalem · 45 adet', cta:'Hazırlamaya başla', hasWho:false, hasMissing:false}
+        ]},
+        {title:'Hazırlanıyor', count:'3', headBg:'#FDF8F8', headFg:'#6E1B2C', cards:[
+          {no:'SPR-2026-0428', age:'22 dk', ageColor:'#9C8F92', account:'Kurumsal — Nurcan Dershanesi', institution:'Merkez', lines:'12 kalem · 640 adet', cta:'Hazır işaretle', hasWho:true, who:'Bekir Öz · 11:40’ta başladı', hasMissing:true, missing:'2'},
+          {no:'SPR-2026-0429', age:'8 dk', ageColor:'#9C8F92', account:'Rehberlik Servisi', institution:'Atatürk Ortaokulu', lines:'2 kalem · 30 adet', cta:'Hazır işaretle', hasWho:true, who:'Bekir Öz · 11:54’te başladı', hasMissing:false}
+        ]},
+        {title:'Hazır · sevk bekliyor', count:'5', headBg:'#F5F9F6', headFg:'#2E6A4F', cards:[
+          {no:'SPR-2026-0418', age:'dün', ageColor:'#9C8F92', account:'Kurumsal — Şanlıurfa Anadolu Lisesi', institution:'Haliliye', lines:'6 kalem · 155 adet', cta:'Teslimata geç', hasWho:true, who:'Bekir Öz · 34 dk sürdü', hasMissing:false},
+          {no:'SPR-2026-0421', age:'dün', ageColor:'#9C8F92', account:'Mehmet Şahin Öğr.', institution:'Siverek İmam Hatip', lines:'6 kalem · 110 adet', cta:'Teslimata geç', hasWho:true, who:'Emine Tan · 19 dk sürdü', hasMissing:true, missing:'1'}
+        ]}
+      ],
+
+      teslimatTip:[
+        {label:'Teslimat', hint:'borç doğar'},
+        {label:'Konsinye teslimatı', hint:'borç doğmaz'},
+        {label:'Numune', hint:'limitli'}
+      ].map((t,i)=>({...t, ...pick(s.tip===i), pick:this.set({tip:i})})),
+      kaynaklar:[{label:'Depodan sevk'},{label:'Elden teslim'}].map((k,i)=>{
+        const on = s.kaynak===i;
+        return {...k, border:on?'#6E1B2C':'#E5DBD7', bg:on?'#6E1B2C':'#fff', fg:on?'#fff':'#5C5155', pick:this.set({kaynak:i})};
+      }),
+      teslimKalem:[
+        {name:'8. Sınıf Matematik Soru Bankası', ordered:'40', delivered:'40', remain:'0', remainColor:'#8A7E82'},
+        {name:'LGS Matematik 12 Deneme Seti', ordered:'25', delivered:'25', remain:'0', remainColor:'#8A7E82'},
+        {name:'8. Sınıf Fen Bilimleri Konu Anlatım', ordered:'30', delivered:'18', remain:'12', remainColor:'#A2661B'},
+        {name:'LGS Türkçe Paragraf Föy Seti', ordered:'60', delivered:'60', remain:'0', remainColor:'#8A7E82'}
+      ],
+
+      yontemler:['Nakit','Havale','Kart','Çek','Senet'].map((l,i)=>{
+        const on = s.yontem===i;
+        return {label:l, border:on?'#6E1B2C':'#E5DBD7', bg:on?'#6E1B2C':'#fff', fg:on?'#fff':'#5C5155', pick:this.set({yontem:i})};
+      }),
+      borclar:[
+        {date:'29 Tem', no:'SPR-2026-0392 · 3/8 kalem', amount:'8.700,00 ₺', pct:'100%', barColor:'#2E6A4F', state:'kapanıyor', stateColor:'#2E6A4F', alloc:'8.700,00'},
+        {date:'04 Ağu', no:'SPR-2026-0401', amount:'4.320,00 ₺', pct:'100%', barColor:'#2E6A4F', state:'kapanıyor', stateColor:'#2E6A4F', alloc:'4.320,00'},
+        {date:'18 Ağu', no:'SPR-2026-0418', amount:'12.960,00 ₺', pct:'15%', barColor:'#A2661B', state:'kısmi kalır', stateColor:'#A2661B', alloc:'1.980,00'},
+        {date:'22 Ağu', no:'SPR-2026-0424', amount:'6.400,00 ₺', pct:'0%', barColor:'#E9E1DE', state:'ödenmedi', stateColor:'#8A7E82', alloc:'—'}
+      ],
+      makbuz:[
+        {label:'Cari', value:'Kurumsal — Şanlıurfa Anadolu Lisesi'},
+        {label:'Tarih', value:'25 Ağustos 2026 · 14:20'},
+        {label:'Yöntem', value:'Nakit'},
+        {label:'Alan', value:'Kemal Arslan'},
+        {label:'Mahsup', value:'3 teslimat · FIFO'}
+      ],
+
+      cariFilters:['Tümü · 312','Gecikmede · 14','Limite yakın · 9','Kurumsal · 96','Öğretmen · 216'].map((l,i)=>({label:l, on:s.cariF===i, fg:s.cariF===i?'#F6EDEE':'#5C5155', pick:this.set({cariF:i})})),
+      cariler:[
+        {type:'KURUM', typeBg:'#F4E0E4', typeFg:'#6E1B2C', name:'Şanlıurfa Anadolu Lisesi', institution:'Haliliye', rep:'Kemal Arslan', bakiye:'45.000 ₺', cek:'22.000 ₺', konsinye:'38.400 ₺', pct:'112%', barColor:'#B0332B', late:'—', lateColor:'#8A7E82'},
+        {type:'KURUM', typeBg:'#F4E0E4', typeFg:'#6E1B2C', name:'Nurcan Dershanesi — Merkez', institution:'Haliliye', rep:'Selin Yavuz', bakiye:'82.600 ₺', cek:'22.000 ₺', konsinye:'—', pct:'87%', barColor:'#A2661B', late:'—', lateColor:'#8A7E82'},
+        {type:'ÖĞRT', typeBg:'#F0F4F7', typeFg:'#3E6E8E', name:'Ahmet Yıldız — Matematik', institution:'Şanlıurfa Anadolu Lisesi', rep:'Kemal Arslan', bakiye:'8.400 ₺', cek:'—', konsinye:'9.600 ₺', pct:'84%', barColor:'#A2661B', late:'12 gün', lateColor:'#A2661B'},
+        {type:'ÖĞRT', typeBg:'#F0F4F7', typeFg:'#3E6E8E', name:'Mehmet Şahin — Türkçe', institution:'Siverek İmam Hatip', rep:'Bahar Ekin', bakiye:'12.400 ₺', cek:'6.800 ₺', konsinye:'—', pct:'128%', barColor:'#B0332B', late:'46 gün', lateColor:'#B0332B'},
+        {type:'KURUM', typeBg:'#F4E0E4', typeFg:'#6E1B2C', name:'Y Koleji', institution:'Karaköprü', rep:'Selin Yavuz', bakiye:'0 ₺', cek:'35.500 ₺', konsinye:'26.880 ₺', pct:'39%', barColor:'#2E6A4F', late:'—', lateColor:'#8A7E82'},
+        {type:'ÖĞRT', typeBg:'#F0F4F7', typeFg:'#3E6E8E', name:'Ayşe Demir — Fizik', institution:'Y Koleji', rep:'Kemal Arslan', bakiye:'3.600 ₺', cek:'—', konsinye:'—', pct:'72%', barColor:'#A2661B', late:'—', lateColor:'#8A7E82'},
+        {type:'KURUM', typeBg:'#F4E0E4', typeFg:'#6E1B2C', name:'Atatürk Ortaokulu', institution:'Haliliye', rep:'Bahar Ekin', bakiye:'18.900 ₺', cek:'—', konsinye:'4.200 ₺', pct:'47%', barColor:'#2E6A4F', late:'—', lateColor:'#8A7E82'},
+        {type:'DİĞER', typeBg:'#F2F0EE', typeFg:'#6B6064', name:'Rehberlik Servisi', institution:'Atatürk Ortaokulu', rep:'Bahar Ekin', bakiye:'0 ₺', cek:'—', konsinye:'—', pct:'0%', barColor:'#2E6A4F', late:'—', lateColor:'#8A7E82'}
+      ],
+
+      konsinyeKpi:[
+        {label:'Açık konsinye', value:'412 adet'},
+        {label:'Tutar karşılığı', value:'118.640 ₺'},
+        {label:'Cari sayısı', value:'23'},
+        {label:'30 günden eski', value:'6 kayıt'}
+      ],
+      konsinyeler:[
+        {product:'8. Sınıf Matematik Soru Bankası', account:'Kurumsal — Şanlıurfa Anadolu Lisesi', date:'04 Ağustos', left:'120', sold:'36', ret:'0', remain:'84', remainColor:'#6E1B2C'},
+        {product:'LGS Türkçe Paragraf Föy Seti', account:'Ahmet Yıldız Öğr.', date:'12 Temmuz', left:'60', sold:'30', ret:'0', remain:'30', remainColor:'#6E1B2C'},
+        {product:'TYT Matematik Konu Anlatım', account:'Kurumsal — Y Koleji', date:'21 Haziran', left:'90', sold:'42', ret:'6', remain:'42', remainColor:'#B0332B'},
+        {product:'AYT Fizik Soru Bankası', account:'Kurumsal — Nurcan Dershanesi', date:'02 Ağustos', left:'150', sold:'88', ret:'0', remain:'62', remainColor:'#6E1B2C'},
+        {product:'7. Sınıf Fen Bilimleri Föy', account:'Kurumsal — Atatürk Ortaokulu', date:'18 Ağustos', left:'40', sold:'0', ret:'0', remain:'40', remainColor:'#6E1B2C'},
+        {product:'LGS 12 Deneme Seti', account:'Kurumsal — Etüt Akademi', date:'09 Ağustos', left:'80', sold:'12', ret:'0', remain:'68', remainColor:'#6E1B2C'}
+      ],
+
+      katalogFilters:['Kitap · 24.603','Deneme · 267','Arşivli gizli','Stok takibi yok · 2.698'].map((l,i)=>({label:l, on:s.katF===i, fg:s.katF===i?'#F6EDEE':'#5C5155', pick:this.set({katF:i})})),
+      urunler:[
+        {name:'8. Sınıf Matematik Soru Bankası', publisher:'Aydın Yayınları', grade:'8. sınıf · LGS', barcode:'9786053004127', edition:'2026-27 · güncel', edBg:'#EAF2ED', edFg:'#2E6A4F', list:'229,00 ₺', price:'149,00 ₺', disc:'%20', stock:'340', stockColor:'#5C5155'},
+        {name:'8. Sınıf Fen Bilimleri Konu Anlatım', publisher:'Aydın Yayınları', grade:'8. sınıf · LGS', barcode:'9786053005540', edition:'2025-26 · eski', edBg:'#FDF3E7', edFg:'#A2661B', list:'349,00 ₺', price:'249,00 ₺', disc:'%20', stock:'40', stockColor:'#A2661B'},
+        {name:'LGS Türkçe Paragraf Föy Seti', publisher:'Merkez Yayıncılık', grade:'8. sınıf · LGS', barcode:'9786053003308', edition:'2026-27 · güncel', edBg:'#EAF2ED', edFg:'#2E6A4F', list:'189,00 ₺', price:'129,00 ₺', disc:'%18', stock:'1.120', stockColor:'#5C5155'},
+        {name:'TYT Matematik Konu Anlatımlı', publisher:'Zirve Yayın', grade:'12. sınıf · TYT', barcode:'9786053008841', edition:'2026-27 · güncel', edBg:'#EAF2ED', edFg:'#2E6A4F', list:'419,00 ₺', price:'289,00 ₺', disc:'%22', stock:'260', stockColor:'#5C5155'},
+        {name:'AYT Fizik Soru Bankası', publisher:'Zirve Yayın', grade:'12. sınıf · AYT', barcode:'9786053009017', edition:'2026-27 · güncel', edBg:'#EAF2ED', edFg:'#2E6A4F', list:'389,00 ₺', price:'269,00 ₺', disc:'%22', stock:'18', stockColor:'#B0332B'},
+        {name:'KPSS Genel Yetenek Genel Kültür', publisher:'Başarı Yayın', grade:'Mezun · KPSS', barcode:'9786053001192', edition:'2026 · güncel', edBg:'#EAF2ED', edFg:'#2E6A4F', list:'549,00 ₺', price:'399,00 ₺', disc:'%15', stock:'takip yok', stockColor:'#9C8F92'},
+        {name:'TG-3 Türkiye Geneli · 8. Sınıf', publisher:'Aydın Yayınları', grade:'8. sınıf · LGS', barcode:'9786053100031', edition:'deneme · 2026-27', edBg:'#F4E0E4', edFg:'#6E1B2C', list:'—', price:'42,00 ₺', disc:'%10', stock:'2.400', stockColor:'#5C5155'},
+        {name:'5. Sınıf Matematik Soru Bankası (2023)', publisher:'Merkez Yayıncılık', grade:'5. sınıf', barcode:'9786053002210', edition:'arşivli', edBg:'#F2F0EE', edFg:'#6B6064', list:'149,00 ₺', price:'99,00 ₺', disc:'%20', stock:'6', stockColor:'#9C8F92'}
+      ],
+
+      weekdays:[{d:'Pzt'},{d:'Sal'},{d:'Çar'},{d:'Per'},{d:'Cum'},{d:'Cmt'},{d:'Paz'}],
+      days: (() => {
+        const ev = {
+          2:[{label:'Stok · Aydın TAK-2', bg:'#FDF3E7', fg:'#A2661B'}],
+          7:[{label:'Stok · TG-3 (8. sınıf)', bg:'#EAF2ED', fg:'#2E6A4F'}],
+          9:[{label:'Stok · Zirve TYT-1', bg:'#FDF3E7', fg:'#A2661B'}],
+          14:[{label:'TG-3 · 8. Sınıf', bg:'#6E1B2C', fg:'#fff'},{label:'TG-3 · 12. Sınıf', bg:'#6E1B2C', fg:'#fff'}],
+          16:[{label:'Deneme Kulübü · 4', bg:'#F0F4F7', fg:'#3E6E8E'}],
+          21:[{label:'TAK-2 uygulama (kurum seçer)', bg:'#FDF3E7', fg:'#A2661B'}],
+          23:[{label:'Stok · Merkez LGS-5', bg:'#FDF3E7', fg:'#A2661B'}],
+          28:[{label:'TG-4 · 5-6-7. Sınıf', bg:'#6E1B2C', fg:'#fff'}],
+          30:[{label:'Deneme Kulübü · 5', bg:'#F0F4F7', fg:'#3E6E8E'}]
+        };
+        return Array.from({length:35}, (_,i) => {
+          const n = i - 3;
+          const inMonth = n >= 1 && n <= 31;
+          return {
+            n: inMonth ? String(n) : String(n < 1 ? 28 + n : n - 31),
+            numColor: inMonth ? (n === 14 ? '#6E1B2C' : '#5C5155') : '#C4B6B9',
+            bg: n === 14 ? '#FDF8F8' : (inMonth ? '#fff' : '#FCFAF9'),
+            events: inMonth ? (ev[n] || []) : []
+          };
+        });
+      })(),
+      denemeDetay:[
+        {label:'Yayınevi', value:'Aydın Yayınları'},
+        {label:'Kapsam', value:'Türkiye Geneli · ulusal'},
+        {label:'Oturum / soru', value:'1 oturum · 90 soru'},
+        {label:'Birim fiyat', value:'42,00 ₺'}
+      ],
+      programlar:[
+        {name:'Şanlıurfa Anadolu Lisesi · Kurumsal', qty:'1.240', state:'planlandı', bg:'#F0F4F7', fg:'#3E6E8E'},
+        {name:'Nurcan Dershanesi · Merkez', qty:'860', state:'hazırlanıyor', bg:'#FDF3E7', fg:'#A2661B'},
+        {name:'Y Koleji · Kurumsal', qty:'640', state:'teslim edildi', bg:'#EAF2ED', fg:'#2E6A4F'},
+        {name:'Atatürk Ortaokulu · Kurumsal', qty:'720', state:'ertelendi', bg:'#FBF0EF', fg:'#B0332B'}
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

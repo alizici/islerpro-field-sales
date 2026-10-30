@@ -1,0 +1,29 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html",         "x": 0,    "y": 0,    "w": 390, "h": 844, "title": "Bugün · pazarlamacı" },
+    { "file": "Talepler.dc.html",     "x": 470,  "y": 0,    "w": 390, "h": 844, "title": "Talepler" },
+    { "file": "CariDetay.dc.html",    "x": 940,  "y": 0,    "w": 390, "h": 844, "title": "Cari detayı" },
+    { "file": "SiparisDetay.dc.html", "x": 1410, "y": 0,    "w": 390, "h": 844, "title": "Sipariş detayı" },
+    { "file": "Panel.dc.html",        "x": 0,    "y": 1010, "w": 390, "h": 844, "title": "Panel · sahip" },
+    { "file": "Tahsilat.dc.html",     "x": 470,  "y": 1010, "w": 390, "h": 844, "title": "Tahsilat" },
+    { "file": "Rapor.dc.html",        "x": 940,  "y": 1010, "w": 390, "h": 844, "title": "Rapor · yaşlandırma" },
+    { "file": "Gezinme.dc.html",      "x": 1410, "y": 1010, "w": 390, "h": 844, "title": "Menü · bağlam" }
+  ],
+  "annotations": [
+    { "id": "n-baglam", "x": 0, "y": -230, "w": 390,
+      "text": "BAĞLAM ŞERİDİ — yeni\n\nHangi dükkan, hangi dönem: bugün hiçbir ekranda yok. Sahip Merkez Şube'de kilitli kalıp Panel'i sıfır görüyor ve sebebini anlamıyor.\n\nDokununca dükkan/dönem değiştirilir. (dukkanDegistir kodda VAR, hiçbir ekrandan çağrılmıyor.)" },
+    { "id": "n-sifir", "x": 0, "y": 1900, "w": 390,
+      "text": "SIFIRLAR YER KAPLAMIYOR\n\nEskiden 5 satır × 113px = ekranın yarısı, gösterdiği tek şey beş tane '0'.\n\nŞimdi: dolu olanlar renk şeritli satır, sıfırlar tek cümle." },
+    { "id": "n-liste", "x": 470, "y": -230, "w": 390,
+      "text": "SATIRIN İŞİ: TARAMAK\n\nEskiden dört olgu tek gri satırda ezikti ve rozetler yığılıyordu.\n\nŞimdi sol şerit durumu taşıyor, sağ sütun kararı verdiren sayıyı (tutar + tarih) hizalıyor. Süzgeç çipleri sayıyı da gösteriyor." },
+    { "id": "n-cari", "x": 940, "y": -230, "w": 390,
+      "text": "TEK BASKIN SAYI\n\nBakiye 32px; risk/limit ikincil. K7 kuralı ekranda yazılı duruyor — kardeş cariler ayrı satır, toplam yok.\n\nÇek satırı K11'i söylüyor: bakiye tahsil edilince düşer." },
+    { "id": "n-tahsilat", "x": 470, "y": 2910, "w": 390,
+      "text": "KAYDETMEDEN ÖNCE GÖSTER\n\nK48 FIFO mahsubu artık önizleniyor: hangi borca ne kadar gidecek, kalan bakiye ne olacak.\n\nEskiden kullanıcı kaydedip sonucu görüyordu." },
+    { "id": "n-rapor", "x": 940, "y": 2910, "w": 390,
+      "text": "MOBİLDE TABLO YOK\n\n18 raporun hepsi masaüstünde tablo. Telefonda yatay kaydırma yerine kart + yaşlandırma şeridi.\n\nMotorun K7 uyarısı gizlenmiyor." },
+    { "id": "n-menu", "x": 1410, "y": 2910, "w": 390,
+      "text": "15 HEDEF GRUPLANDI\n\nEskiden 'Daha fazla' düz bir liste dökümüydü; her satır 130px.\n\nŞimdi Satış / Para / Deneme / Araçlar. Bekleyen iş sayısı rozette." }
+  ],
+  "launch": { "view": "canvas" }
+}
