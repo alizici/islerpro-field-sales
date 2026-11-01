@@ -1,3 +1,5 @@
+// Flutter 3.44'ten beri Cupertino geçişi material'da değil, cupertino'da.
+import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
 import 'tokens.dart';
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/auth/session.dart';
+import '../../../core/test_keys.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../../shared/widgets/dokunus.dart';
@@ -61,6 +62,7 @@ class _KurulumEkraniState extends ConsumerState<KurulumEkrani> {
         if (_hata != null) Bildirim(_hata!, tip: BildirimTip.hata),
         if (_davetYolu) ...[
           TextField(
+            key: K.kurulumDavetKodu,
             controller: _davet,
             textCapitalization: TextCapitalization.characters,
             onChanged: (_) => setState(() {}),
@@ -69,6 +71,7 @@ class _KurulumEkraniState extends ConsumerState<KurulumEkrani> {
           ),
           const SizedBox(height: T.s3),
           FilledButton(
+            key: K.kurulumDavetKullan,
             onPressed: _mesgul || _davet.text.trim().length < 4
                 ? null
                 : () => _calistir(() => repo.davetKullan(_davet.text.trim())),
@@ -80,6 +83,7 @@ class _KurulumEkraniState extends ConsumerState<KurulumEkrani> {
           ),
         ] else ...[
           TextField(
+            key: K.kurulumUnvan,
             controller: _unvan,
             onChanged: (_) => setState(() {}),
             decoration: const InputDecoration(
@@ -87,6 +91,7 @@ class _KurulumEkraniState extends ConsumerState<KurulumEkrani> {
           ),
           const SizedBox(height: T.s3),
           TextField(
+            key: K.kurulumDukkan,
             controller: _dukkan,
             decoration: const InputDecoration(labelText: 'İlk dükkan adı'),
           ),
@@ -94,6 +99,7 @@ class _KurulumEkraniState extends ConsumerState<KurulumEkrani> {
           Row(children: [
             Expanded(
               child: TextField(
+                key: K.kurulumIl,
                 controller: _il,
                 decoration: const InputDecoration(
                     labelText: 'İl', hintText: 'Şanlıurfa'),
@@ -102,6 +108,7 @@ class _KurulumEkraniState extends ConsumerState<KurulumEkrani> {
             const SizedBox(width: T.s3),
             Expanded(
               child: TextField(
+                key: K.kurulumIlce,
                 controller: _ilce,
                 decoration: const InputDecoration(
                     labelText: 'İlçe', hintText: 'Haliliye'),
@@ -114,6 +121,7 @@ class _KurulumEkraniState extends ConsumerState<KurulumEkrani> {
             '1 Şubat–31 Ağustos. Bugünün içinde olduğu dönem aktif olur.',
             tip: BildirimTip.bilgi),
           FilledButton(
+            key: K.kurulumKur,
             onPressed: _mesgul || _unvan.text.trim().isEmpty
                 ? null
                 : () => _calistir(() => repo.kurulumYap(

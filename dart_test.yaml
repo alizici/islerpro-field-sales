@@ -1,0 +1,7 @@
+# `ekran`: README'nin ekran görüntülerini üreten testler
+# (test/ekran_goruntusu/). Normal koşuda atlanır; üretmek için:
+#
+#   flutter test --tags ekran --run-skipped --update-goldens test/ekran_goruntusu
+tags:
+  ekran:
+    skip: "Ekran görüntüsü üretimi — flutter test --tags ekran --run-skipped --update-goldens test/ekran_goruntusu"

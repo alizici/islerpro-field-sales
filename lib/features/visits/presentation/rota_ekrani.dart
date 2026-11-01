@@ -160,9 +160,10 @@ class _Duraklar extends ConsumerWidget {
             physics: const NeverScrollableScrollPhysics(),
             buildDefaultDragHandles: false,
             itemCount: r.duraklar.length,
-            onReorder: (eski, yeni) async {
+            // `onReorderItem` hedef sırayı, çıkarılan öğe hesaba katılmış
+            // olarak verir; eski `onReorder`daki `yeni -= 1` düzeltmesi yok.
+            onReorderItem: (eski, yeni) async {
               final l = [...r.duraklar];
-              if (yeni > eski) yeni -= 1;
               l.insert(yeni, l.removeAt(eski));
               await ref.read(ziyaretRepositoryProvider)
                   .planSirala(l.map((e) => e.planId).toList());

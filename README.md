@@ -6,11 +6,11 @@ One Flutter codebase: **Android · iOS · Web · macOS**, backed by **Supabase (
 
 > The UI and the design docs are in Turkish, since the product targets the Turkish market.
 
-<!-- Screenshots: add a few real app screenshots here, e.g.
-| | |
-|---|---|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![Order](docs/screenshots/order.png) |
--->
+| Sales rep · today | Owner · dashboard | Order · partial delivery | Customer account |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/today.png" width="200" alt="Sales rep's today screen: open visit bar, receivables, next tasks"> | <img src="docs/screenshots/dashboard.png" width="200" alt="Owner dashboard: pending work queue and receivables card"> | <img src="docs/screenshots/order.png" width="200" alt="Order detail: status line, partial delivery, deliver action"> | <img src="docs/screenshots/account.png" width="200" alt="Customer account: balance, risk against credit limit, actions"> |
+
+<sub>Rendered from the real widgets with demo data (fictional schools, people and publishers), iPhone size. See [Testing](#testing).</sub>
 
 ## What it does
 
@@ -38,7 +38,7 @@ Sales reps work in schools with bad reception, so the mobile app writes locally 
 
 ### Data model
 
-21 SQL migrations under [`supabase/migrations/`](supabase/migrations/): 53 tables, 22 enums, functions and RLS policies, covering organizations and memberships, institution directory, customer accounts, catalog, commerce (visits → orders → deliveries → collections), exam programs, notifications, audit log and bulk imports.
+39 SQL migrations under [`supabase/migrations/`](supabase/migrations/): 53 tables, 22 enums, functions and RLS policies, covering organizations and memberships, institution directory, customer accounts, catalog, commerce (visits → orders → deliveries → collections), exam programs, notifications, audit log and bulk imports.
 
 ### Decision log
 
@@ -67,10 +67,12 @@ lib/
                requests · security · settings · sync · visits
   shared/      formatters, shared widgets
 supabase/      config + SQL migrations
-test/          unit and widget tests, API + RLS checks (test/e2e), demo data
+test/          unit and widget tests, API + RLS checks (test/e2e), demo data,
+               README screenshot generator (test/ekran_goruntusu)
 integration_test/  one end-to-end flow that runs on web, iOS, Android and desktop
 design/        HTML design references for the web panel and mobile screens
-docs/          product mechanics, data analysis, exam calendar, reporting, setup, test strategy
+docs/          product mechanics, data analysis, exam calendar, reporting, setup, test strategy,
+               screenshots
 ```
 
 ## Testing
@@ -89,6 +91,12 @@ Four layers in one command:
 | End-to-end | the real app against a real backend | `integration_test/` |
 
 `integration_test` was chosen because the **same test file** runs in Chrome, the iOS simulator, the Android emulator and on desktop. Tests find widgets by stable keys from a single file (`lib/core/test_keys.dart`), never by visible text, so changing a label doesn't break them.
+
+The screenshots above are widget tests too ([`test/ekran_goruntusu/`](test/ekran_goruntusu/)): the real shell, theme and fonts with fake repositories. They are skipped in the normal run; to regenerate them:
+
+```bash
+flutter test --tags ekran --run-skipped --update-goldens test/ekran_goruntusu
+```
 
 ## Running it
 

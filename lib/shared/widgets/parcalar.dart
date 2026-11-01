@@ -110,7 +110,8 @@ class OranSeridi extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodySmall),
                 TextSpan(text: Fmt0.kisa(d.$2), style: TextStyle(
                     fontFamily: T.fontMono, fontSize: 11,
-                    fontWeight: FontWeight.w600, color: d.$3)),
+                    fontWeight: FontWeight.w600,
+                    color: _okunur(d.$3, s))),
               ])),
           ]),
         ],
@@ -118,6 +119,18 @@ class OranSeridi extends StatelessWidget {
             color: s.surfaceContainerHigh)),
       ],
     );
+  }
+
+  /// Etiketteki sayının rengi.
+  ///
+  /// Sayı dilimin rengini taşır — ama "kalan" dilimi zemin tonunda çiziliyor
+  /// (`surfaceContainerHigh`) ve o renkle yazılan sayı zeminde kayboluyordu:
+  /// cari detayındaki "Kalan limit 32b" okunmuyordu. Renk zeminden yeterince
+  /// ayrışmıyorsa sayı ikincil yazı rengine düşer.
+  static Color _okunur(Color renk, ColorScheme s) {
+    final a = renk.computeLuminance() + 0.05;
+    final b = s.surface.computeLuminance() + 0.05;
+    return (a > b ? a / b : b / a) < 1.5 ? s.onSurfaceVariant : renk;
   }
 }
 

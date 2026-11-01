@@ -119,6 +119,34 @@ void main() {
       await t.pumpAndSettle();
       expect(r.cagrilar, contains('plandanCikar:pl1'));
     });
+
+    // `onReorder`dan `onReorderItem`a geçişte hedef sıra artık çıkarılan öğe
+    // hesaba katılmış geliyor; eski `yeni -= 1` düzeltmesi kalsaydı durak
+    // yerinden oynamazdı ve sunucuya aynı sıra giderdi.
+    testWidgets('durak sürüklenince yeni sıra sunucuya gider', (t) async {
+      final r = await ac(t, const RotaEkrani(),
+          repo: SahteZiyaretRepo(rotaKaydi: Rota(planlanan: 3, duraklar: [
+            durak('Fatih Anadolu Lisesi', kurumId: 'k1', planId: 'pl1'),
+            durak('Harran Fen Lisesi', kurumId: 'k2', planId: 'pl2'),
+            durak('Atatürk Ortaokulu', kurumId: 'k3', planId: 'pl3'),
+          ])));
+
+      // İlk durağı sıra numarasından tutup ikincinin altına bırak.
+      final tutamac = find.descendant(
+          of: find.byKey(K.rotaSiralama), matching: find.text('1'));
+      final boy = t.getSize(find.byKey(const ValueKey('pl1'))).height;
+      final g = await t.startGesture(t.getCenter(tutamac));
+      await t.pump();
+      for (var i = 0; i < 20; i++) {
+        await g.moveBy(Offset(0, boy * 1.5 / 20));
+        await t.pump(const Duration(milliseconds: 16));
+      }
+      await g.up();
+      await t.pumpAndSettle();
+
+      expect(r.cagrilar, contains('planSirala'));
+      expect(r.sonSira, ['pl2', 'pl1', 'pl3']);
+    });
   });
 
   group('Rota · öneriler', () {

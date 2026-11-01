@@ -44,8 +44,10 @@ class _TalepDetayEkraniState extends ConsumerState<TalepDetayEkrani> {
       onPopInvokedWithResult: (_, _) {},
       child: CamSayfa(
         baslik: 'Talep',
+        // Platformun geri simgesi — kendiliğinden gelen geri düğmesiyle aynı.
         oncul: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const BackButtonIcon(),
+          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
           onPressed: () => Navigator.pop(context, _degisti),
         ),
         altSerit: switch (detay.value) {

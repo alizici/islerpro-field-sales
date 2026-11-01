@@ -3,6 +3,12 @@
 Okul kanalı kitap & deneme satışı için saha + bayi yönetim uygulaması.
 Tek Flutter kod tabanı: Android · iOS · Web · macOS · Windows.
 
+| Pazarlamacı · Bugün | Sahip · Panel | Sipariş · kısmi teslim | Cari |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/today.png" width="200" alt="Pazarlamacının Bugün ekranı: açık ziyaret, alacak, sıradaki işler"> | <img src="docs/screenshots/dashboard.png" width="200" alt="Sahibin paneli: bekleyen işler ve açık alacak kartı"> | <img src="docs/screenshots/order.png" width="200" alt="Sipariş detayı: aşama çizgisi, kısmi teslim, teslim et"> | <img src="docs/screenshots/account.png" width="200" alt="Cari detayı: bakiye, limite göre risk, eylemler"> |
+
+<sub>Gerçek widget'lardan, demo veriyle (uydurma okul, kişi ve yayınevi adları) üretildi. Yeniden üretmek: [Doğrulama](#doğrulama).</sub>
+
 ## Dokümanlar
 
 | Doküman | İçerik |
@@ -48,9 +54,19 @@ yapılamaz; neyin eksik olduğunu söyleyen bir ekran gelir.
 Dört katman: statik analiz · birim/widget · API+RLS · uçtan uca (web + iOS).
 Ayrıntı: [docs/06-test-stratejisi.md](docs/06-test-stratejisi.md)
 
+Yukarıdaki ekran görüntüleri de birer widget testi (`test/ekran_goruntusu/`):
+gerçek kabuk, tema ve yazı tipleri, sahte depolar. Normal koşuda atlanır;
+yeniden üretmek için:
+
+```bash
+flutter test --tags ekran --run-skipped --update-goldens test/ekran_goruntusu
+```
+
 ## Veritabanı
 
-`supabase/migrations/` altında sırayla uygulanır:
+`supabase/migrations/` altında 39 dosya sırayla uygulanır. Temel şema ilk
+dokuzunda; sonrakiler akışları (talep, sipariş, teslimat, tahsilat), ziyaret ve
+rotayı, çevrimdışı senkronu, deneme takvimini ve rapor motorunu ekler.
 
 | Dosya | İçerik |
 |---|---|
@@ -68,9 +84,9 @@ Ayrıntı: [docs/06-test-stratejisi.md](docs/06-test-stratejisi.md)
 supabase db push
 ```
 
-> Migration'lar statik olarak doğrulandı (45 tablo · 22 enum · FK sırası · RLS
-> kapsamı) ama **henüz gerçek bir Postgres'te çalıştırılmadı**. İlk `db push`
-> doğrulamayı tamamlayacak.
+> Toplam 53 tablo · 22 enum. Fonksiyonlar ve RLS sınırları gerçek bir Supabase
+> projesine karşı `test/e2e/` ile sınanır (`./dogrula.sh --e2e`); ilk kurulumun
+> kaydı [docs/05-supabase-kurulum.md](docs/05-supabase-kurulum.md).
 
 ## Tasarım
 
@@ -84,11 +100,12 @@ monospace + tabular figür ile hizalı.
 
 ```
 lib/
-  core/     theme · router (rol guard) · network · auth · storage · sync · error
-  data/     models · dto · repositories · remote (supabase) · local (drift)
-  features/ auth · dashboard · institutions · accounts · catalog · imports ·
-            requests · orders · shipments · payments · visits · exams · reports
-  shared/   widgets · formatters · validators · l10n
+  core/     auth · network · router (rol guard) · security · theme · test kimlikleri
+  data/     local (drift + yazma kuyruğu) · models · repositories · services
+  features/ accounts · auth · catalog · collections · commercial · dashboard ·
+            exams · import · institutions · notifications · onboarding · orders ·
+            reports · requests · security · settings · sync · visits
+  shared/   formatters · widgets
 ```
 
 Responsive: `<600px` BottomNav · `600–1024` NavigationRail · `>1024` kalıcı sidebar.

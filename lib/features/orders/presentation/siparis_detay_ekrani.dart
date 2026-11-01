@@ -96,8 +96,11 @@ class _SiparisDetayEkraniState extends ConsumerState<SiparisDetayEkrani> {
       baslik: 'Sipariş',
       // Geri dönerken listeye "değişti mi" bilgisini taşıyan tek yol bu:
       // sistemin kendi geri hareketi bir sonuç döndüremiyor.
+      // Simge platformun geri simgesi (iOS'ta ok başı): kendiliğinden gelen
+      // geri düğmesiyle aynı görünmeli.
       oncul: IconButton(
-        icon: const Icon(Icons.arrow_back),
+        icon: const BackButtonIcon(),
+        tooltip: MaterialLocalizations.of(context).backButtonTooltip,
         onPressed: () => Navigator.pop(context, _degisti),
       ),
       // Asıl eylem listenin dibinde kaybolmaz: telefonda kullanıcı

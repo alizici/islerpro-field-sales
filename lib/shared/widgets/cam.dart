@@ -194,7 +194,11 @@ class CamZemin extends StatelessWidget {
               ],
             ),
           ),
-          child: child,
+          // Zemin, Scaffold'un Material'ının ÜSTÜNE opak renk boyuyor. İçerik
+          // kendi (saydam) Material'ını bulmazsa ListTile zemini ve basılı
+          // hâl vurgusu bu rengin ALTINDA kalıp hiç görünmüyor; Flutter 3.47
+          // bunu artık doğrulamayla yakalıyor (KVKK ekranındaki onay kutusu).
+          child: Material(type: MaterialType.transparency, child: child),
         ),
       ),
     );

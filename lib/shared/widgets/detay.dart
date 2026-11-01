@@ -134,10 +134,18 @@ class DetayBandi extends StatelessWidget {
                           children: [
                             if (etiket != null) MikroEtiket(etiket!),
                             const SizedBox(height: 2),
-                            Mono(deger!,
-                                size: 28,
-                                weight: FontWeight.w600,
-                                color: degerRengi),
+                            // Baskın sayı BÖLÜNMEZ. 390 noktalık telefonda
+                            // yan ölçüler yer kaplayınca tutar "₺86.984,0" /
+                            // "0" diye iki satıra kırılıyordu. Sığmazsa
+                            // küçülür; sığıyorsa boyu aynen kalır.
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Mono(deger!,
+                                  size: 28,
+                                  weight: FontWeight.w600,
+                                  color: degerRengi),
+                            ),
                             if (degerAlti != null)
                               Padding(
                                 padding: const EdgeInsets.only(top: 2),
@@ -246,16 +254,24 @@ class AsamaCizgisi extends StatelessWidget {
                 const SizedBox(height: 5),
                 Padding(
                   padding: const EdgeInsets.only(right: T.s2),
-                  child: Text(
-                    asamalar[i],
-                    maxLines: 2,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 10.5,
-                          height: 1.2,
-                          color: i <= aktif ? r : s.onSurfaceVariant,
-                          fontWeight:
-                              i == aktif ? FontWeight.w600 : FontWeight.w400,
-                        ),
+                  // Tek kelimelik etiket dar sütunda harf harf bölünüyordu:
+                  // beş aşamalı sipariş çizgisinde "Hazırlanıyo" / "r".
+                  // Sığmayan etiket bölünmez, küçülür.
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      asamalar[i],
+                      maxLines: 1,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontSize: 10.5,
+                            height: 1.2,
+                            color: i <= aktif ? r : s.onSurfaceVariant,
+                            fontWeight: i == aktif
+                                ? FontWeight.w600
+                                : FontWeight.w400,
+                          ),
+                    ),
                   ),
                 ),
               ],
